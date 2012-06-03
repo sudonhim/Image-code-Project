@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<html lang="en">
+  <head>
+    <title>Image Code JS</title>
+    <link href="./stylesheet.css" rel="stylesheet" type="text/css"></link>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="./canvasproxy.js"></script>
+    <script>
+      $(document).ready(function() {
+      
+        var canvasProxy = new CanvasProxy('container', 640, 480);
+        var $textSubmit = $('#textSubmit');
+        var $imageCodeText = $('#imageCodeText');
+        var defaultText = 'var r = x;\nvar g = y;\nvar b = 0;\n\nreturn [ r%255, g%255, b%255 ];';
+        $imageCodeText.val(defaultText);
+                           
+        var imageWorker = new Worker('imageworker.js');
+        imageWorker.onmessage = function(event) {
+          var data = event.data;
+          if (data) {
+            var pixelArray = data.colors;
+            if (pixelArray.length) {
+              canvasProxy.setPixelArray(pixelArray);
+            }
+          }
+        };
+        
+        $textSubmit.click(function() {
+          imageWorker.postMessage({
+            width: canvasProxy.canvas.width,
+            height: canvasProxy.canvas.height,
+            definition: $imageCodeText.val()
+          });
+        });
+        
+      });
+    </script>
+  </head>
+  <body>
+    <div id="container"></div>
+    function setPixel(x, y) {
+    <br />
+    <textarea id="imageCodeText" rows="20" cols="80"></textarea>
+    <br />
+    }
+    <button id="textSubmit">Submit</button>
+  </body>
+</html>
