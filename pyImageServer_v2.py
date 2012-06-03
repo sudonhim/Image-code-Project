@@ -33,12 +33,22 @@ def image(fname):
 def view_source(fname):
         language = 'generic'
         try:
+<<<<<<< HEAD
             code = open(os.curdir+'/images/'+fname+'.js').read()
             language = 'javascript'
         except IOError:
             try:
                 code = open(os.curdir+'/images/'+fname+'.py').read()
                 language = 'python'
+=======
+            code = open(os.curdir+'/images/'+fname).read()
+            language = 'python'
+        except IOError:
+            try:
+                fname = fname.replace('.py', '.js')
+                code = open(os.curdir+'/images/'+fname).read()
+                language = 'javascript'
+>>>>>>> a364fd69f3906057ad7978054b4627d30c5bdb3c
             except IOError:
                 code = ("No source found for this image, it may be from an "+
                         "older\nversion of pyImageServer")
@@ -198,6 +208,10 @@ def saveImage(data, code, user):
 if __name__ == '__main__':
     Saved_Images = loadImages()
     Syntax_Checker = SyntaxChecker()
+<<<<<<< HEAD
+=======
+    #bottle.debug()
+>>>>>>> a364fd69f3906057ad7978054b4627d30c5bdb3c
     debug = True
     if debug:
         bottle.debug()
