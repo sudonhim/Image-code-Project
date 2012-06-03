@@ -3,13 +3,16 @@ var worker = self;
 (function() {
 
 var ColorSetter = function(width, height) {
+  var position = [];
+  
   this.colors = new Float32Array(width * height * 4);
   
   this.setPixels = function(callback) {
     var length = width * height;
     for (var i=0; i<length; ++i) {
-      var x = i%width, y = parseInt(i/width);
-      var colors = callback(x, y);
+      position[0] = i%width;
+      position[1] = parseInt(i/width);
+      var colors = callback.apply(null, position);
       this.colors[i*4] = colors[0];
       this.colors[i*4+1] = colors[1];
       this.colors[i*4+2] = colors[2];
@@ -30,8 +33,7 @@ worker.onmessage = function(event) {
 };
 
 var getFunction = function(definition, width, height) {
-    var worker = undefined;
-    var ColorSetter = undefined;
+    var worker = ColorSetter = XMLHttpRequest = Worker = importScripts = self = undefined;
     eval('var definition = undefined; function setPixels(x, y) {' + definition + '}');
     return setPixels;
 };
