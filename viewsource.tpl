@@ -24,7 +24,7 @@
 <img src="/images/linebreak.png">
 </code>  
 <br />
-<img src="/images/{{name[:-3]+'.png'}}">
+<img src="/images/{{name+'.png'}}">
 
 </font>
 </body>
