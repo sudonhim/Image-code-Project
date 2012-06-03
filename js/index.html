@@ -9,27 +9,29 @@
     <script>
       $(document).ready(function() {
       
-        var canvasProxy = new CanvasProxy('container', 640, 480);
+        //var canvasProxy = new CanvasProxy('imageContainer', 640, 480);
         var $textSubmit = $('#textSubmit');
         var $imageCodeText = $('#imageCodeText');
         var defaultText = 'var r = x;\nvar g = y;\nvar b = 0;\n\nreturn [ r%256, g%256, b%256 ];';
         $imageCodeText.val(defaultText);
+        var image = document.createElement('img');
+        image.width = 640;
+        image.height = 480;
+        $('#imageContainer').append(image);
                            
         var imageWorker = new Worker('imageworker.js');
         imageWorker.onmessage = function(event) {
           var data = event.data;
           if (data) {
             var pixelArray = data.colors;
-            if (pixelArray.length) {
-              canvasProxy.setPixelArray(pixelArray);
-            }
+            image.src = data.uri;
           }
         };
         
         $textSubmit.click(function() {
           imageWorker.postMessage({
-            width: canvasProxy.canvas.width,
-            height: canvasProxy.canvas.height,
+            width: image.width,
+            height: image.height,
             definition: $imageCodeText.val()
           });
         });
@@ -38,12 +40,14 @@
     </script>
   </head>
   <body>
-    <div id="container"></div>
-    function setPixel(x, y) {
-    <br />
-    <textarea id="imageCodeText" rows="20" cols="80"></textarea>
-    <br />
-    }
-    <button id="textSubmit">Submit</button>
+    <div id="container">
+      <div id="imageContainer"></div>
+      function setPixel(x, y) {
+      <br />
+      <textarea id="imageCodeText" rows="20" cols="80"></textarea>
+      <br />
+      }
+      <button id="textSubmit">Submit</button>
+    </div>
   </body>
 </html>

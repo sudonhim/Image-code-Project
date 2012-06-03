@@ -1,11 +1,12 @@
 var worker = self;
+importScripts('bmplib.js');
 
 (function() {
-
+    
 var ColorSetter = function(width, height) {
   var position = [];
   
-  this.colors = new Float32Array(width * height * 4);
+  this.colors = [] ;
   
   this.setPixels = function(callback) {
     var length = width * height;
@@ -13,11 +14,10 @@ var ColorSetter = function(width, height) {
       position[0] = i%width;
       position[1] = parseInt(i/width);
       var colors = callback.apply(null, position);
-      this.colors[i*4] = colors[0];
-      this.colors[i*4+1] = colors[1];
-      this.colors[i*4+2] = colors[2];
-      this.colors[i*4+3] = colors[3] || 255;
+      this.colors[position[1]] = this.colors[position[1]] || [];
+      this.colors[position[1]][position[0]] = colors;
     }
+    this.uri = BMPLib.imageSource(this.colors);
   };
 };
 
@@ -28,14 +28,14 @@ worker.onmessage = function(event) {
     var colorSetter = new ColorSetter(data.width, data.height);
     var callback = getFunction(data.definition, data.width, data.height);
     colorSetter.setPixels(callback);
-    worker.postMessage({ colors: colorSetter.colors });
+    worker.postMessage({ colors: colorSetter.colors, uri: colorSetter.uri });
   }
 };
 
 var getFunction = function(definition, width, height) {
-    var worker = ColorSetter = XMLHttpRequest = Worker = importScripts = self = undefined;
-    eval('var definition = undefined; function setPixels(x, y) {' + definition + '}');
-    return setPixels;
+  var worker = XMLHttpRequest = Worker = importScripts = undefined;
+  eval('var definition = undefined; function setPixels(x, y) {' + definition + '}');
+  return setPixels;
 };
 
 })();
