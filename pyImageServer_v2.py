@@ -104,6 +104,7 @@ def submit_image_POST():
 
 ########################################################################
 ##  Image and code handling  ###########################################
+########################################################################
 
 def loadImages():
     fnames = os.listdir(os.curdir+'/images')
@@ -128,9 +129,6 @@ def saveImage(data, code, user):
     #Redirect to index
     redirect('/')
 
-    
-
-########################################################################
 if __name__ == '__main__':
     Saved_Images = loadImages()
     debug = True
