@@ -8,6 +8,13 @@ allowed_functions = set([
 	'frexp', 'fsum', 'gamma', 'hypot', 'isinf', 'isnan', 'ldexp',
 	'lgamma', 'log', 'log10', 'log1p', 'modf', 'pi', 'pow', 'radians',
 	'sin', 'sinh', 'sqrt', 'tan', 'tanh', 'trunc',
+        #random library
+        'Random','WichmannHill', 'betavariate', 'choice', 'division',
+        'expovariate', 'gammavariate', 'gauss', 'getrandbits', 'getstate',
+        'jumpahead', 'lognormvariate', 'normalvariate', 'paretovariate',
+        'randint', 'random', 'randrange', 'sample', 'seed', 'setstate',
+        'shuffle', 'triangular', 'uniform', 'vonmisesvariate',
+        'weibullvariate', 'SystemRandom',
 	#builtins
 	'abs', 'max', 'min', 'range', 'xrange', 'break', 'int'
 	])

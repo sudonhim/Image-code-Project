@@ -6,6 +6,7 @@ import os, time, re, multiprocessing, base64
 from PIL import Image
 from numpy import zeros
 from math import *
+from random import *
 from SyntaxChecker import SyntaxChecker
 
 
