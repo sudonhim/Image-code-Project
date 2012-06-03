@@ -18,6 +18,10 @@ def index():
     return template('index',imageurls=imgurls,contributors=contribs)
 
 
+@route('/js/<fname:path>')
+def image(fname):
+    return static_file(fname, root=os.curdir+"/js")
+
 
 @route('/images/<fname:path>')
 def image(fname):
@@ -78,7 +82,12 @@ def submit_POST():
             return redirect('/')
     except Exception as e:
         return template('submit', ucode=code, err=str(e))
-
+        
+@post('/imageSubmitted')
+def submit_image_POST():
+    uri = request.forms.get('uri')
+    print uri
+  
 
 ########################################################################
 ##  Image and code handling  ###########################################
@@ -161,4 +170,9 @@ if __name__ == '__main__':
     Saved_Images = loadImages()
     Syntax_Checker = SyntaxChecker()
     #bottle.debug()
-    run(server='cherrypy', host="metahub-remote.no-ip.info",port=80)
+    debug = False
+    if debug:
+        host = 'localhost'
+    else:
+        host = 'metahub-remote.no-ip.info'
+    run(server='cherrypy', host=host, port=80)
