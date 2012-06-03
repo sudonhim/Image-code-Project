@@ -5,6 +5,7 @@ import os, time, re, multiprocessing
 from PIL import Image
 from numpy import zeros
 from math import *
+from random import *
 from SyntaxChecker import SyntaxChecker
 
 
