@@ -5,6 +5,7 @@ importScripts('bmplib.js');
     
 var ColorSetter = function(width, height) {
   var position = [];
+  var normalPosition = [];
   
   this.colors = [];
   
@@ -13,7 +14,9 @@ var ColorSetter = function(width, height) {
     for (var i=0; i<length; ++i) {
       position[0] = i%width;
       position[1] = parseInt(i/width);
-      var colors = callback.apply(null, position);
+      normalPosition[0] = position[0] / (width+0.0000001);
+      normalPosition[1] = position[1] / (height+0.0000001);
+      var colors = callback.apply(null, normalPosition);
       this.colors[position[1]] = this.colors[position[1]] || [];
       this.colors[position[1]][position[0]] = colors;
     }

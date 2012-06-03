@@ -14,7 +14,7 @@
         var $textPreview = $('#textPreview');
         var $user = $('#user');
         var $imageCodeText = $('#imageCodeText');
-        var defaultText = 'r = x;\ng = y;\nb = 0;';
+        var defaultText = 'r = x*255;\ng = y*255;\nb = 0;';
         var $imageContainer = $('#imageContainer');
         var canvas = document.createElement('canvas');
         var context = canvas.getContext('2d');
@@ -22,7 +22,7 @@
         var code = '';
         var previewMode = true;
         $imageCodeText.val(defaultText);
-        $imageContainer.css({ width: 640, height: 480 });
+        $imageContainer.css({ width: 500, height: 500 });
         canvas.width = $imageContainer.width();
         canvas.height = $imageContainer.height();
                            
