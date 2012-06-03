@@ -2,6 +2,11 @@
 
 <head>
   <title>pyImageServer</title>
+  <script src="/js/rainbow.min.js"></script>
+  <script src="/js/language/generic.js"></script>
+  <script src="/js/language/python.js"></script>
+  <script src="/js/language/javascript.js"></script>
+  <link href="/js/syntaxhighlight.css" rel="stylesheet" type="text/css"></link>
 </head>
 
 <body>
@@ -13,7 +18,9 @@
 <code>
 <p><b>Source for {{name}}</b></p>
 <img src="/images/linebreak.png">
-<pre>{{code}}</pre>
+<div class='codeBlock'>
+<pre><code data-language="{{language}}">{{code}}</code></pre>
+</div>
 <img src="/images/linebreak.png">
 </code>  
 <br />
