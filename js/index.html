@@ -12,7 +12,7 @@
         var canvasProxy = new CanvasProxy('container', 640, 480);
         var $textSubmit = $('#textSubmit');
         var $imageCodeText = $('#imageCodeText');
-        var defaultText = 'var r = x;\nvar g = y;\nvar b = 0;\n\nreturn [ r%255, g%255, b%255 ];';
+        var defaultText = 'var r = x;\nvar g = y;\nvar b = 0;\n\nreturn [ r%256, g%256, b%256 ];';
         $imageCodeText.val(defaultText);
                            
         var imageWorker = new Worker('imageworker.js');
