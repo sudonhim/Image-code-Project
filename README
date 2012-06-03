@@ -1,3 +1,14 @@
-Just getting everything set up.. will update this when done
+Currently this repo contains the source code for pyImageServer,
+an imageboard where users can generate new images by completing
+a Python function stub.
+
+Due to limitations of the current method of processing images,
+future versions of this server will instead use client-side
+scripting (JS) for image generation. Apart from using Bottle
+for handling requests and CherryPy for the server, pretty much
+everything will be overhauled.
+
+Currently the server is (usually) up at:
+metahub-remote.no-ip.info
 
 -Brenton Milne, (SudoNhim)
