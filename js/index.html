@@ -14,7 +14,7 @@
         var $imageContainer = $('#imageContainer');
         var canvas = document.createElement('canvas');
         var context = canvas.getContext('2d');
-        var image = document.createElement('img');
+        var image = new Image();
         $imageCodeText.val(defaultText);
         $imageContainer.css({ width: 640, height: 480 });
         canvas.width = $imageContainer.width();
