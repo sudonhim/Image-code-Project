@@ -25,7 +25,6 @@
         $imageContainer.css({ width: 640, height: 480 });
         canvas.width = $imageContainer.width();
         canvas.height = $imageContainer.height();
-        $('#imageContainer').append(canvas);
                            
         var imageWorker = new Worker('js/imageworker.js');
         imageWorker.onmessage = function(event) {
@@ -36,11 +35,16 @@
             image.src = data.uri;
             image.onload = function() {
               context.drawImage(image, 0, 0);
+              var uri = canvas.toDataURL('image/png');
+              $imageContainer.empty();
+              image = new Image();
+              image.src = uri;
+              $imageContainer.append(image);
               if (!previewMode) {
                 $.ajax({
                   type: "POST",
                   url: "imageSubmitted",
-                  data: { user: $user.val(), code: code, uri: canvas.toDataURL('image/png') }
+                  data: { user: $user.val(), code: code, uri: uri }
                 }).done(function() {
                   window.location = '/';
                 });
