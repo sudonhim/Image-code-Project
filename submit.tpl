@@ -30,8 +30,10 @@
           var data = event.data;
           if (data) {
             var pixelArray = data.colors;
+            image = new Image();
             image.src = data.uri;
             image.onload = function() {
+              alert('Preview: ' + previewMode);
               context.drawImage(image, 0, 0);
               if (!previewMode) {
                 $.ajax({
