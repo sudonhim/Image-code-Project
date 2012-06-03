@@ -107,6 +107,7 @@ def submit_image_POST():
 
 ########################################################################
 ##  Image and code handling  ###########################################
+########################################################################
 
 def loadImages():
     fnames = os.listdir(os.curdir+'/images')
@@ -192,16 +193,9 @@ def saveImage(data, code, user):
     #Redirect to index
     redirect('/')
 
-    
-
-########################################################################
 if __name__ == '__main__':
     Saved_Images = loadImages()
     Syntax_Checker = SyntaxChecker()
-<<<<<<< HEAD
-=======
-    #bottle.debug()
->>>>>>> a364fd69f3906057ad7978054b4627d30c5bdb3c
     debug = True
     if debug:
         bottle.debug()

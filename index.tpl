@@ -14,7 +14,7 @@
 %for i in range(len(imageurls)):
    %contributor = contributors[i]
    %imgurl = "/images/"+imageurls[i]+".png"
-   %codeurl = "/code/"+imageurls[i]+".py"
+   %codeurl = "/code/"+imageurls[i]
    <p>
      <a href="{{codeurl}}" style="text-decoration: none">
      <img src="{{imgurl}}"><br />
