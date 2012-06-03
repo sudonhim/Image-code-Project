@@ -7,7 +7,7 @@
 <body>
 
 <font face="consolas">
-  <h1>Sudo's Image-code Project</h1>
+  <h1>Image-code Project</h1>
   
 <p><a href='/submit'>Make your own!</a>, or <a href='/'>Return to Gallery</a></p>
 

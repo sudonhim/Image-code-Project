@@ -7,14 +7,14 @@
 <body>
 
 <font face="consolas">
-  <h1>Sudo's Image-code Project</h1>
+  <h1>Image-code Project</h1>
   
 <p><a href='/submit'>Make your own!</a></p>
 
 %for i in range(len(imageurls)):
    %contributor = contributors[i]
    %imgurl = "/images/"+imageurls[i]+".png"
-   %codeurl = "/code/"+imageurls[i]+".py"
+   %codeurl = "/code/"+imageurls[i]
    <p>
      <a href="{{codeurl}}" style="text-decoration: none">
      <img src="{{imgurl}}"><br />

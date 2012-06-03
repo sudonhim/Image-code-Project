@@ -12,8 +12,13 @@
 <body>
 
 <font face="consolas">
-  <h1>Sudo's Image-code Project</h1>
-<p><a href="/submit/{{name}}">Reuse this code</a>, or <a href='/'>Return to Gallery</a></p>
+  <h1>Image-code Project</h1>
+%if language == 'javascript':
+  <p><a href="/submit/{{name}}">Reuse this code</a>, or <a href='/'>Return to Gallery</a></p>
+%else:
+  <p>Cannot be re-used - <a href='/'>Return to Gallery</a></p>
+  <p>Note: This code is written in {{language}}, and comes from a different version of this site</p>
+%end
 
 <code>
 <p><b>Source for {{name}}</b></p>
@@ -24,7 +29,7 @@
 <img src="/images/linebreak.png">
 </code>  
 <br />
-<img src="/images/{{name[:-3]+'.png'}}">
+<img src="/images/{{name+'.png'}}">
 
 </font>
 </body>

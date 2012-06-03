@@ -2,12 +2,9 @@ from bottle import route, post, request, run, static_file, redirect, template, C
 import bottle
 import re
 
-import os, time, re, multiprocessing, base64
+import os, time, re, base64
 from PIL import Image
 from numpy import zeros
-from math import *
-from random import *
-from SyntaxChecker import SyntaxChecker
 
 
 @route('/')
@@ -117,67 +114,6 @@ def loadImages():
             name = name[:-4]
             images.append( (username, name, date) )
     return sorted(images, key=lambda image: image[2], reverse=True)
-
-
-def generateImage(imgfunc, sizex, sizey, out):
-    print "\n################## Processing code..."
-    try:
-        exec(imgfunc) #defines getPixel
-        imgarray = zeros((sizey,sizex,3),'uint8')
-        for x in xrange(sizex):
-            xrel = float(x)/sizex
-            for y in xrange(sizey):
-                yrel = float(y)/sizey
-                imgarray[y,x] = getPixel(xrel,yrel)
-        out.put(imgarray)
-    except Exception as e:
-        out.put(str(e))
-    print "################## Completed...\n"
-
-
-    
-def generateImage_Timebox(imgfunc, sizex, sizey, timeout):
-    q = multiprocessing.Queue()
-    p = multiprocessing.Process(target=generateImage, args=(imgfunc, sizex, sizey, q))
-    p.start()
-    out = None
-    for i in xrange(10*timeout):
-        time.sleep(0.1)
-        try:
-            out = q.get_nowait()
-            break
-        except:
-            pass
-        
-    if out == None:
-        p.terminate()
-        raise SyntaxError("Execution timed out!")
-    elif type(out)==str:
-        raise SyntaxError(out)
-    else:
-        return Image.fromarray(out)
-
-def handleSyntax(syntax, user, preview=False):
-    Syntax_Checker.check(syntax)
-    syntax_complete = "def getPixel( x,y ):\n"
-    for line in syntax.split('\n'):
-        syntax_complete += "   "+line
-    syntax_complete += "\n   return r%256,g%256,b%256"
-    if preview:
-        img = generateImage_Timebox(syntax_complete,200,200,timeout=5)
-        img_fname = "images/temp/"+"tmpimg"+".png"
-        img.save(img_fname)
-        return template('submit', imageurl=img_fname)
-    else:
-        img = generateImage_Timebox(syntax_complete,450,450,timeout=30)
-        img_fname = user+"-"+str(int(time.time()))
-        img.save("images/"+img_fname+".png")
-        f = open("images/"+img_fname+".py", 'w')
-        f.write(syntax_complete)
-        f.close()
-        Saved_Images.insert( 0,(user, img_fname, str(int(time.time()))) )
-        #Redirect to index
-        redirect('/')
         
 def saveImage(data, code, user):
     img_fname = user+"-"+str(int(time.time()))
@@ -197,15 +133,12 @@ def saveImage(data, code, user):
 ########################################################################
 if __name__ == '__main__':
     Saved_Images = loadImages()
-    Syntax_Checker = SyntaxChecker()
-<<<<<<< HEAD
-=======
-    #bottle.debug()
->>>>>>> a364fd69f3906057ad7978054b4627d30c5bdb3c
     debug = True
     if debug:
         bottle.debug()
         host = 'localhost'
+        port=8080
     else:
         host = 'metahub-remote.no-ip.info'
-    run(server='cherrypy', host=host, port=80)
+        port=80
+    run(server='cherrypy', host=host, port=port)
