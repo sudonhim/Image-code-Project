@@ -10,3 +10,9 @@ html, body {
 #codeBlock {
   font-family: "Courier New", Courier, monospace;
 }
+
+.CodeMirror {
+  border: 1px solid black;
+  max-width: 600px;
+  margin-left: 26px;
+}
