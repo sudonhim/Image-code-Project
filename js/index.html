@@ -5,18 +5,16 @@
     <title>Image Code JS</title>
     <link href="./stylesheet.css" rel="stylesheet" type="text/css"></link>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="./canvasproxy.js"></script>
     <script>
       $(document).ready(function() {
       
-        //var canvasProxy = new CanvasProxy('imageContainer', 640, 480);
         var $textSubmit = $('#textSubmit');
         var $imageCodeText = $('#imageCodeText');
         var defaultText = 'var r = x;\nvar g = y;\nvar b = 0;\n\nreturn [ r%256, g%256, b%256 ];';
-        $imageCodeText.val(defaultText);
+        var $imageContainer = $('#imageContainer');
         var image = document.createElement('img');
-        image.width = 640;
-        image.height = 480;
+        $imageCodeText.val(defaultText);
+        $imageContainer.css({ width: 640, height: 480 });
         $('#imageContainer').append(image);
                            
         var imageWorker = new Worker('imageworker.js');
@@ -30,8 +28,8 @@
         
         $textSubmit.click(function() {
           imageWorker.postMessage({
-            width: image.width,
-            height: image.height,
+            width: $imageContainer.width(),
+            height: $imageContainer.height(),
             definition: $imageCodeText.val()
           });
         });

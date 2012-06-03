@@ -6,7 +6,7 @@ importScripts('bmplib.js');
 var ColorSetter = function(width, height) {
   var position = [];
   
-  this.colors = [] ;
+  this.colors = [];
   
   this.setPixels = function(callback) {
     var length = width * height;
