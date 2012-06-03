@@ -3,21 +3,23 @@
 <html lang="en">
   <head>
     <title>Image Code JS</title>
-    <link href="js/stylesheet.css" rel="stylesheet" type="text/css"></link>
+    <link href="/js/stylesheet.css" rel="stylesheet" type="text/css"></link>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script type="text/javascript" src="js/worker.js"></script>
+    <script type="text/javascript" src="/js/worker.js"></script>
     <script>
       
       $(document).ready(function() {
       
         var $textSubmit = $('#textSubmit');
         var $textPreview = $('#textPreview');
+        var $user = $('#user');
         var $imageCodeText = $('#imageCodeText');
         var defaultText = 'var r = x;\nvar g = y;\nvar b = 0;\n\nreturn [ r%256, g%256, b%256 ];';
         var $imageContainer = $('#imageContainer');
         var canvas = document.createElement('canvas');
         var context = canvas.getContext('2d');
         var image = new Image();
+        var code = '';
         var previewMode = true;
         $imageCodeText.val(defaultText);
         $imageContainer.css({ width: 640, height: 480 });
@@ -33,13 +35,14 @@
             image = new Image();
             image.src = data.uri;
             image.onload = function() {
-              alert('Preview: ' + previewMode);
               context.drawImage(image, 0, 0);
               if (!previewMode) {
                 $.ajax({
                   type: "POST",
                   url: "imageSubmitted",
-                  data: { uri: canvas.toDataURL('image/png') }
+                  data: { user: $user.val(), code: code, uri: canvas.toDataURL('image/png') }
+                }).done(function() {
+                  window.location = '/';
                 });
               }
             };
@@ -56,6 +59,7 @@
         }
         
         $textSubmit.click(function() {
+          code = $imageCodeText.val();
           loadImage(false);
         });
         
@@ -73,7 +77,7 @@
       <br />
       <textarea id="imageCodeText" rows="20" cols="80"></textarea>
       <br />
-      }
+      } 	Your name: <input type="text" id="user" name="user"/>
       <button id="textPreview">Preview</button>
       <button id="textSubmit">Submit</button>
     </div>
