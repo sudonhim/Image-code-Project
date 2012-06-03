@@ -1,7 +1,8 @@
 from bottle import route, post, request, run, static_file, redirect, template, CherryPyServer
 import bottle
+import re
 
-import os, time, re, multiprocessing
+import os, time, re, multiprocessing, base64
 from PIL import Image
 from numpy import zeros
 from math import *
@@ -30,12 +31,18 @@ def image(fname):
 
 @route('/code/<fname:path>')
 def view_source(fname):
+        language = 'generic'
         try:
-            code = open(os.curdir+'/images/'+fname).read()
+            code = open(os.curdir+'/images/'+fname+'.js').read()
+            language = 'javascript'
         except IOError:
-            code = ("No source found for this image, it may be from an "+
-                    "older\nversion of pyImageServer")
-        return template('viewsource', code=code, name=fname)
+            try:
+                code = open(os.curdir+'/images/'+fname+'.py').read()
+                language = 'python'
+            except IOError:
+                code = ("No source found for this image, it may be from an "+
+                        "older\nversion of pyImageServer")
+        return template('viewsource', code=code, name=fname, language=language)
         
     
 
@@ -85,8 +92,17 @@ def submit_POST():
         
 @post('/imageSubmitted')
 def submit_image_POST():
+    user = request.forms.get('user')
+    code = request.forms.get('code')
+    user = re.sub('[^0-9a-zA-Z_ ]', '', user) #remove invalid chars
+    user = re.sub('^[^a-zA-Z_]+', '', user)  #remove invalid whitespace
+    if (user == ''):
+        user = 'Anonymous'
     uri = request.forms.get('uri')
-    print uri
+    uri = uri + '=' * (4 - len(uri) % 4)
+    uri = re.search(r'base64,(.*)', uri).group(1)
+    data = base64.urlsafe_b64decode(uri)
+    saveImage(data, code, user)
   
 
 ########################################################################
@@ -162,6 +178,19 @@ def handleSyntax(syntax, user, preview=False):
         Saved_Images.insert( 0,(user, img_fname, str(int(time.time()))) )
         #Redirect to index
         redirect('/')
+        
+def saveImage(data, code, user):
+    img_fname = user+"-"+str(int(time.time()))
+    f = open("images/"+img_fname+".png", 'wb')
+    f.write(data)
+    f.close()
+    f = open("images/"+img_fname+".js", 'w')
+    code = 'function setPixel(x,y) {\n  ' + code.replace('\n', '\n  ') + '\n}';
+    f.write(code)
+    f.close()
+    Saved_Images.insert( 0,(user, img_fname, str(int(time.time()))) )
+    #Redirect to index
+    redirect('/')
 
     
 
@@ -169,9 +198,9 @@ def handleSyntax(syntax, user, preview=False):
 if __name__ == '__main__':
     Saved_Images = loadImages()
     Syntax_Checker = SyntaxChecker()
-    #bottle.debug()
-    debug = False
+    debug = True
     if debug:
+        bottle.debug()
         host = 'localhost'
     else:
         host = 'metahub-remote.no-ip.info'
