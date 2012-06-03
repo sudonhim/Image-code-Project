@@ -14,7 +14,7 @@
         var $textPreview = $('#textPreview');
         var $user = $('#user');
         var $imageCodeText = $('#imageCodeText');
-        var defaultText = 'var r = x;\nvar g = y;\nvar b = 0;\n\nreturn [ r%256, g%256, b%256 ];';
+        var defaultText = 'r = x;\ng = y;\nb = 0;';
         var $imageContainer = $('#imageContainer');
         var canvas = document.createElement('canvas');
         var context = canvas.getContext('2d');
@@ -55,15 +55,16 @@
         
         function loadImage(preview) {
           previewMode = preview;
+          code = $imageCodeText.val() || '';
+          code = 'var r=0, g=0, b=0;\n' + code + '\nreturn [ r%256, g%256, b%256 ];';
           imageWorker.postMessage({
             width: $imageContainer.width(),
             height: $imageContainer.height(),
-            definition: $imageCodeText.val()
+            definition: code
           });
         }
         
         $textSubmit.click(function() {
-          code = $imageCodeText.val();
           loadImage(false);
         });
         
@@ -77,11 +78,17 @@
   <body>
     <div id="container">
       <div id="imageContainer"></div>
-      function setPixel(x, y) {
-      <br />
-      <textarea id="imageCodeText" rows="20" cols="80"></textarea>
-      <br />
-      } 	Your name: <input type="text" id="user" name="user"/>
+      <div id="codeBlock">
+        function setPixel(x, y) {
+        <br/>
+        &nbsp;&nbsp;&nbsp;var r, g, b;
+        <br />
+        &nbsp;&nbsp;&nbsp;<textarea id="imageCodeText" rows="20" cols="80"></textarea>
+        <br />
+        &nbsp;&nbsp;&nbsp;return [ r % 256, g % 256, b % 256 ];        
+        <br/>
+        } 	Your name: <input type="text" id="user" name="user"/>
+      </div>
       <button id="textPreview">Preview</button>
       <button id="textSubmit">Submit</button>
     </div>

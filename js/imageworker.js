@@ -24,7 +24,6 @@ var ColorSetter = function(width, height) {
 worker.onmessage = function(event) {
   var data = event.data;
   if (data) {
-    data.definition = data.definition || 'return [ 255, 255, 255 ]';
     var colorSetter = new ColorSetter(data.width, data.height);
     var callback = getFunction(data.definition, data.width, data.height);
     colorSetter.setPixels(callback);
@@ -34,6 +33,11 @@ worker.onmessage = function(event) {
 
 var getFunction = function(definition, width, height) {
   var worker = XMLHttpRequest = Worker = importScripts = undefined;
+  var sin = Math.sin, PI = Math.PI, pi = Math.PI, cos = Math.cos, 
+      tan = Math.tan, log = Math.log, sqrt = Math.sqrt, abs = Math.abs,
+      floor = Math.floor, ceil = Math.ceil, round = Math.round, exp = Math.exp,
+      acos = Math.acos, asin = Math.asin, atan = Math.atan, atan2 = Math.atan2,
+      max = Math.max, min = Math.min, pow = Math.pow, random = Math.random;
   eval('var definition = undefined; function setPixels(x, y) {' + definition + '}');
   return setPixels;
 };
