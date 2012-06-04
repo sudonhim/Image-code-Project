@@ -43,14 +43,14 @@
           } else if (data.uri) {
             $progressBar.css({ width: parseInt(data.progress) + '100%', height: '100%' });
             var pixelArray = data.colors;
-            var $originalImage = $(image);
             image = new Image();
             image.src = data.uri;
             image.onload = function() {
               $progressBorder.fadeOut();
               context.drawImage(image, 0, 0);
               var uri = canvas.toDataURL('image/png');
-              $originalImage.remove();
+              $imageContainer.empty();
+              $imageContainer.append($progressBorder);
               image = new Image();
               image.src = uri;
               $imageContainer.prepend(image);
