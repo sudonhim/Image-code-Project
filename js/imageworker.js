@@ -11,15 +11,20 @@ var ColorSetter = function(width, height) {
   
   this.colors = [];
   
+  
   this.setPixels = function(callback) {
     var length = width * height;
-    var x,y;
-    for (var i=0; i<length; ++i) {
+    var x, y, i;
+    var colors;
+    for (i=0; i<length; ++i) {
       x = i%width;
       y = parseInt(i/width);
       normalPosition[0] = x / width;
       normalPosition[1] = y / height;
-      var colors = callback.apply(null, normalPosition);
+      colors = callback.apply(null, normalPosition);
+      colors[0] = Math.floor(colors[0]);
+      colors[1] = Math.floor(colors[1]);
+      colors[2] = Math.floor(colors[2]);
       while (colors[0] < 0 || colors[1] < 0 || colors[2] < 0) {
         colors[0] += 256;
         colors[1] += 256;
@@ -30,8 +35,12 @@ var ColorSetter = function(width, height) {
       colors[2] %= 256;
       this.colors[y] = this.colors[y] || [];
       this.colors[y][x] = colors;
+      if (x === width-1) {
+        worker.postMessage({ progress: normalPosition[1] * 75 });
+      }
     }
     this.uri = BMPLib.imageSource(this.colors);
+      worker.postMessage({ progress: 90 });
   };
 };
 

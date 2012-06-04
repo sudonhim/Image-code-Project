@@ -27,6 +27,8 @@
         });
         var code = '';
         var previewMode = true;
+        var $progressBar = $('.progressBar');
+        var $progressBorder = $('.progressBorder').hide();
         $imageCodeText.val(defaultText);
         editor.setValue(defaultText);
         $imageContainer.css({ width: 500, height: 500 });
@@ -36,23 +38,28 @@
         var imageWorker = new Worker('js/imageworker.js');
         imageWorker.onmessage = function(event) {
           var data = event.data;
-          if (data) {
+          if (data.progress) {
+            $progressBar.css({ width: parseInt(data.progress) + '%', height: '100%' });
+          } else if (data.uri) {
+            $progressBar.css({ width: parseInt(data.progress) + '100%', height: '100%' });
             var pixelArray = data.colors;
+            var $originalImage = $(image);
             image = new Image();
             image.src = data.uri;
             image.onload = function() {
+              $progressBorder.fadeOut();
               context.drawImage(image, 0, 0);
               var uri = canvas.toDataURL('image/png');
-              $imageContainer.empty();
-              image = new Image();
-              image.src = uri;
-              $imageContainer.append(image);
+              $imageContainer.prepend(image);
               if (!previewMode) {
                 $.ajax({
                   type: "POST",
                   url: "imageSubmitted",
                   data: { user: $user.val(), code: code, uri: uri }
                 }).done(function() {
+                  $originalImage.remove();
+                  image = new Image();
+                  image.src = uri;
                   window.location = '/';
                 });
               }
@@ -61,6 +68,8 @@
         };
         
         function loadImage(preview) {
+          $progressBorder.fadeIn();
+          $progressBar.css({ width: '0%', height: '100%' });
           previewMode = preview;
           code = editor.getValue() || '';
           code = 'var r=0, g=0, b=0;\n' + code + '\nreturn [ r%256, g%256, b%256 ];';
@@ -84,20 +93,22 @@
   </head>
   <body>
     <div id="container">
-      <div id="imageContainer"></div>
-      <div id="codeBlock">
-        function setPixel(x, y) {
-        <br/>
-        &nbsp;&nbsp;&nbsp;var r, g, b;
-        <br />
-        &nbsp;&nbsp;&nbsp;<textarea id="code" name="code" rows="20" cols="80"></textarea>
-        <br />
-        &nbsp;&nbsp;&nbsp;return [ r % 256, g % 256, b % 256 ];        
-        <br/>
-        } 	Your name: <input type="text" id="user" name="user"/>
+      <div id="imageContainer"><div class="progressBorder"><div class="progressBar"></div></div></div>
+      <div id="codeContainer">
+        <div id="codeBlock">
+          function setPixel(x, y) {
+          <br/>
+          &nbsp;&nbsp;&nbsp;var r, g, b;
+          <br />
+          &nbsp;&nbsp;&nbsp;<textarea id="code" name="code" rows="20" cols="80"></textarea>
+          <br />
+          &nbsp;&nbsp;&nbsp;return [ r % 256, g % 256, b % 256 ];        
+          <br/>
+          } 	Your name: <input type="text" id="user" name="user"/>
+        </div>
+        <button id="textPreview">Preview</button>
+        <button id="textSubmit">Submit</button>
       </div>
-      <button id="textPreview">Preview</button>
-      <button id="textSubmit">Submit</button>
     </div>
   </body>
 </html>
