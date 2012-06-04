@@ -50,6 +50,9 @@
               $progressBorder.fadeOut();
               context.drawImage(image, 0, 0);
               var uri = canvas.toDataURL('image/png');
+              $originalImage.remove();
+              image = new Image();
+              image.src = uri;
               $imageContainer.prepend(image);
               if (!previewMode) {
                 $.ajax({
@@ -57,9 +60,6 @@
                   url: "imageSubmitted",
                   data: { user: $user.val(), code: code, uri: uri }
                 }).done(function() {
-                  $originalImage.remove();
-                  image = new Image();
-                  image.src = uri;
                   window.location = '/';
                 });
               }
