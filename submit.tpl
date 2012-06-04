@@ -2,7 +2,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <html lang="en">
   <head>
-    <title>Image Code JS</title>
+    <title>Image-code JS</title>
     <link href="/js/stylesheet.css" rel="stylesheet" type="text/css"></link>
     <link rel="stylesheet" href="/js/codemirror.css">
     <script src="/js/codemirror.js"></script>
@@ -16,7 +16,7 @@
         var $textPreview = $('#textPreview');
         var $user = $('#user');
         var $imageCodeText = $('#code');
-        var defaultText = 'r = x * 255;\ng = y * 255;\nb = 0;';
+        var startText = '{{startWithCode}}';
         var $imageContainer = $('#imageContainer');
         var canvas = document.createElement('canvas');
         var context = canvas.getContext('2d');
@@ -27,13 +27,13 @@
         });
         var code = '';
         var previewMode = true;
-        $imageCodeText.val(defaultText);
-        editor.setValue(defaultText);
+        $imageCodeText.val(startText);
+        editor.setValue(startText);
         $imageContainer.css({ width: 500, height: 500 });
         canvas.width = $imageContainer.width();
         canvas.height = $imageContainer.height();
                            
-        var imageWorker = new Worker('js/imageworker.js');
+        var imageWorker = new Worker('/js/imageworker.js');
         imageWorker.onmessage = function(event) {
           var data = event.data;
           if (data) {
@@ -50,7 +50,7 @@
               if (!previewMode) {
                 $.ajax({
                   type: "POST",
-                  url: "imageSubmitted",
+                  url: "/imageSubmitted",
                   data: { user: $user.val(), code: code, uri: uri }
                 }).done(function() {
                   window.location = '/';

@@ -51,41 +51,21 @@ def show_help():
 
 @route('/submit')
 def submit():
-    return template('submit')
+    defaultCode = r"r = x * 255;\ng = y * 255;\nb = 0;"
+    return template('submit', startWithCode=defaultCode)
 
 @route('/submit/<fname:path>')
 def submit_derivative(fname):
     try:
         code = ""
-        lines = re.split('\n|\r', open(os.curdir+'/images/'+fname).read())
-        for line in lines[1:-1]: code += line[3:]+'\n'
+        lines = re.split('\n|\r', open(os.curdir+'/images/'+fname+'.js').read())
+        for line in lines[1:-1]: code += line[2:]+'\n'
     except IOError:
-        code = ("Are you -trying- to break me?\n"+
-                "That source file doesn't exist.")
-    return template('submit', ucode=code)
+        code = ("This is not a valid JavaScript source file.")
+    code = code.replace("\n",r"\n")
+    return template('submit', startWithCode=code)
 
 
-@post('/submit/<fname:path>')
-def submit_derivative_POST(fname):
-    return submit_POST()
-
-@post('/submit')
-def submit_POST():
-    user = request.forms.get('user')
-    code = request.forms.get('code')
-    preview = request.forms.get('Preview')
-    if preview != "":
-        user = re.sub('[^0-9a-zA-Z_ ]', '', user) #remove invalid chars
-        user = re.sub('^[^a-zA-Z_]+', '', user)  #remove invalid whitespace
-    try:
-        if preview == "":
-            handleSyntax(code, user, preview=True)
-            return template('submit', ucode=code, imageurl='/images/temp/tmpimg.png')
-        elif submit:
-            handleSyntax(code, user)
-            return redirect('/')
-    except Exception as e:
-        return template('submit', ucode=code, err=str(e))
         
 @post('/imageSubmitted')
 def submit_image_POST():
