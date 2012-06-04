@@ -1,1 +1,0 @@
-python pyImageServer.py  111.69.225.225:80

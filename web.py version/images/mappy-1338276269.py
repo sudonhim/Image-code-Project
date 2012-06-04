@@ -1,3 +1,0 @@
-def getPixel( x,y ):
-   TOL = 0.02   STEPS = 150      #background   #r,g,b = 255*x, 128*(x+y), 255*y   #r,g,b = 191+(64*x), 128+(64*(x+y)), 191+(64*y)   r,g,b = 191+(64*x), 255, 191+(64*y)      #parametric   for i in range(0,STEPS):      t = i*(2*6.28/STEPS);      tmp_y = (cos(t)/(2+t))+0.5-0.15      tmp_x = (sin(t)/(2+t))+0.5-0.05         dx = tmp_x - x      dy = tmp_y - y      dist = pow(dx*dx + dy*dy, 0.5)      if (dist < TOL):         #r,g,b = 256-r,256-g,256-b         r,g,b = 64*x,128 + 128*(dist*dist),64*y         break;
-   return r%256,g%256,b%256
