@@ -4,6 +4,8 @@ importScripts('bmplib.js');
 (function() {
     
 var ColorSetter = function(width, height) {
+  width = width || 450;
+  height = height || 450;
   var position = [];
   var normalPosition = [];
   
@@ -11,14 +13,23 @@ var ColorSetter = function(width, height) {
   
   this.setPixels = function(callback) {
     var length = width * height;
+    var x,y;
     for (var i=0; i<length; ++i) {
-      position[0] = i%width;
-      position[1] = parseInt(i/width);
-      normalPosition[0] = position[0] / (width+0.0000001);
-      normalPosition[1] = position[1] / (height+0.0000001);
+      x = i%width;
+      y = parseInt(i/width);
+      normalPosition[0] = x / width;
+      normalPosition[1] = y / height;
       var colors = callback.apply(null, normalPosition);
-      this.colors[position[1]] = this.colors[position[1]] || [];
-      this.colors[position[1]][position[0]] = colors;
+      while (colors[0] < 0 || colors[1] < 0 || colors[2] < 0) {
+        colors[0] += 256;
+        colors[1] += 256;
+        colors[2] += 256;
+      }
+      colors[0] %= 256;
+      colors[1] %= 256;
+      colors[2] %= 256;
+      this.colors[y] = this.colors[y] || [];
+      this.colors[y][x] = colors;
     }
     this.uri = BMPLib.imageSource(this.colors);
   };
@@ -41,7 +52,9 @@ var getFunction = function(definition, width, height) {
       floor = Math.floor, ceil = Math.ceil, round = Math.round, exp = Math.exp,
       acos = Math.acos, asin = Math.asin, atan = Math.atan, atan2 = Math.atan2,
       max = Math.max, min = Math.min, pow = Math.pow, random = Math.random;
-  eval('var definition = undefined; function setPixels(x, y) {' + definition + '}');
+  definition = 'var definition = undefined; function setPixels(x, y) {' + definition + '}';
+  definition = definition.replace('return [ r%256, g%256, b%256 ]', 'return [ r, g, b ]');
+  eval(definition);
   return setPixels;
 };
 
