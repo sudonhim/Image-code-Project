@@ -51,7 +51,8 @@
               imageData.data[i] = pixelArray[i];
             }
             context.putImageData(imageData, 0, 0);
-            image.src = canvas.toDataURL('image/png');
+            var uri = canvas.toDataURL('image/png');
+            image.src = uri;
             $imageContainer.prepend(image);
             image.onload = function() {
               $progressBorder.fadeOut();
