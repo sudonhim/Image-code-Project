@@ -8,7 +8,7 @@ var ColorSetter = function(width, height) {
   height = height || 450;
   var normalPosition = [];
   
-  this.colors = new Uint8Array(width * height * 4);
+  this.colors = new Float32Array(width * height * 4);
   
   this.setPixels = function(callback) {
     var length = width * height;
