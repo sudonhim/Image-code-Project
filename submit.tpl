@@ -16,7 +16,7 @@
         var $textPreview = $('#textPreview');
         var $user = $('#user');
         var $imageCodeText = $('#code');
-        var startText = '{{startWithCode}}';
+        var startText = '{{!startWithCode}}';
         var $imageContainer = $('#imageContainer');
         var canvas = document.createElement('canvas');
         var context = canvas.getContext('2d');
