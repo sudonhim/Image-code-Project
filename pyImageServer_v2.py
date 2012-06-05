@@ -59,7 +59,7 @@ def submit_derivative(fname):
     try:
         code = ""
         lines = re.split('\n|\r', open(os.curdir+'/images/'+fname+'.js').read())
-        for line in lines[1:-1]: code += line[2:]+'\n'
+        for line in lines[2:-2]: code += line[2:]+'\n'
     except IOError:
         code = ("This is not a valid JavaScript source file.")
     code = code.replace("\n",r"\n")
@@ -76,11 +76,26 @@ def submit_image_POST():
     user = re.sub('^[^a-zA-Z_]+', '', user)  #remove invalid whitespace
     if (user == ''):
         user = 'Anonymous'
+    if len(user)>50:
+        user = user[:50]
     uri = request.forms.get('uri')
     uri = uri + '=' * (4 - len(uri) % 4)
     uri = re.search(r'base64,(.*)', uri).group(1)
     data = base64.urlsafe_b64decode(uri)
-    saveImage(data, code, user)
+    imghash = hash(data)
+    if imghash not in Image_Hashes:
+        saveImage(data, imghash, code, user)
+        return "success"
+    else:
+        return "duplicate"
+    
+    
+ERROR_MSGS = {"duplicate": "The image you submitted already exists!"
+              }
+    
+@route('/error/<errorname>')
+def errormsg(errorname):
+    return ERROR_MSGS[errorname]
   
 
 ########################################################################
@@ -90,14 +105,22 @@ def submit_image_POST():
 def loadImages():
     fnames = os.listdir(os.curdir+'/images')
     images = []
+    hashes = set()
+    print "Loading/hashing images..."
     for name in fnames:
         if name.split('.')[-1] == 'png' and len(name.split('-')) == 2:
+            f = open(os.curdir+'/images/'+name, 'rb')
+            hashes.add(hash(f.read()))
+            f.close()
             username, date = name[:-4].split('-')
             name = name[:-4]
             images.append( (username, name, date) )
-    return sorted(images, key=lambda image: image[2], reverse=True)
+
+    print len(hashes), "images loaded."
+    return sorted(images, key=lambda image: image[2], reverse=True), hashes
         
-def saveImage(data, code, user):
+def saveImage(data, imghash, code, user):
+    Image_Hashes.add(imghash)
     img_fname = user+"-"+str(int(time.time()))
     f = open("images/"+img_fname+".png", 'wb')
     f.write(data)
@@ -107,12 +130,11 @@ def saveImage(data, code, user):
     f.write(code)
     f.close()
     Saved_Images.insert( 0,(user, img_fname, str(int(time.time()))) )
-    #Redirect to index
-    redirect('/')
+
 
 if __name__ == '__main__':
-    Saved_Images = loadImages()
-    debug = True
+    Saved_Images, Image_Hashes = loadImages()
+    debug = False
     if debug:
         bottle.debug()
         host = 'localhost'

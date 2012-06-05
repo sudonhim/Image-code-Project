@@ -61,8 +61,12 @@
                   type: "POST",
                   url: "/imageSubmitted",
                   data: { user: $user.val(), code: code, uri: uri }
-                }).done(function() {
-                  window.location = '/';
+                }).done(function(response) {
+                  if (response=='success') {
+                    window.location = '/';
+                  } else if (response=='duplicate') {
+                    window.location = '/error/duplicate';
+                  } else { window.location=response }
                 });
               }
             };
