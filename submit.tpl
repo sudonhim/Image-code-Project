@@ -16,7 +16,7 @@
         var $textPreview = $('#textPreview');
         var $user = $('#user');
         var $imageCodeText = $('#code');
-        var defaultText = 'r = x * 255;\ng = y * 255;\nb = 0;';
+        var defaultText = 'r = x;\ng = y;\nb = 0;\n\nr *= 255;\ng *= 255;\nb *= 255;';
         var $imageContainer = $('#imageContainer');
         var canvas = document.createElement('canvas');
         var context = canvas.getContext('2d');
