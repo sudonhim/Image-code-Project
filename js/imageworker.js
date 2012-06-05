@@ -50,7 +50,7 @@ worker.onmessage = function(event) {
     var colorSetter = new ColorSetter(data.width, data.height);
     var callback = getFunction(data.definition, data.width, data.height);
     colorSetter.setPixels(callback);
-    worker.postMessage({ colors: colorSetter.colors, uri: colorSetter.uri });
+    worker.postMessage({ uri: colorSetter.uri });
   }
 };
 

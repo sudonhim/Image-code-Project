@@ -56,13 +56,8 @@ BMPLib.normalize_ = function(grid, opt_palette) {
     // 2D array of numbers, with palette.  Convert to array of strings.
     grid = this.arrayArrayToArrayStr_(grid);
     palette = opt_palette;
-  } else if (typeof grid[0] == 'object' && typeof grid[0][0] == 'object' &&
-      grid[0][0].length >= 3) {
-    // 2D array of [r, g, b] tuples, without palette.  True-colour mode.
-    palette = null;
   } else {
-    // WTF?
-    throw('Invalid argument types.');
+    palette = null;
   }
   return [grid, palette];
 };
