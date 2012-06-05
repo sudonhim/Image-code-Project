@@ -1,46 +1,34 @@
 var worker = self;
-importScripts('bmplib.js');
+worker.postMessage = worker.webkitPostMessage || worker.postMessage;
 
 (function() {
     
 var ColorSetter = function(width, height) {
   width = width || 450;
   height = height || 450;
-  var position = [];
   var normalPosition = [];
   
-  this.colors = [];
-  
+  this.colors = new Uint8Array(width * height * 4);
   
   this.setPixels = function(callback) {
     var length = width * height;
-    var x, y, i;
-    var colors;
+    var x, y, i=0;
+    var colors, colorOffset;
     for (i=0; i<length; ++i) {
-      x = i%width;
-      y = parseInt(i/width);
+      colorOffset = i * 4;
+      x = i % width;
+      y = parseInt(i / width);
       normalPosition[0] = x / width;
       normalPosition[1] = y / height;
       colors = callback.apply(null, normalPosition);
-      colors[0] = Math.floor(colors[0]);
-      colors[1] = Math.floor(colors[1]);
-      colors[2] = Math.floor(colors[2]);
-      while (colors[0] < 0 || colors[1] < 0 || colors[2] < 0) {
-        colors[0] += 256;
-        colors[1] += 256;
-        colors[2] += 256;
-      }
-      colors[0] %= 256;
-      colors[1] %= 256;
-      colors[2] %= 256;
-      this.colors[y] = this.colors[y] || [];
-      this.colors[y][x] = colors;
+      this.colors[colorOffset] = colors[0];
+      this.colors[colorOffset+1] = colors[1];
+      this.colors[colorOffset+2] = colors[2];
+      this.colors[colorOffset+3] = 255;
       if (x === width-1) {
-        worker.postMessage({ progress: normalPosition[1] * 75 });
+        worker.postMessage({ progress: normalPosition[1] * 100 });
       }
     }
-    this.uri = BMPLib.imageSource(this.colors);
-      worker.postMessage({ progress: 90 });
   };
 };
 
@@ -50,7 +38,7 @@ worker.onmessage = function(event) {
     var colorSetter = new ColorSetter(data.width, data.height);
     var callback = getFunction(data.definition, data.width, data.height);
     colorSetter.setPixels(callback);
-    worker.postMessage({ uri: colorSetter.uri });
+    worker.postMessage({ colors: colorSetter.colors });
   }
 };
 
@@ -62,7 +50,6 @@ var getFunction = function(definition, width, height) {
       acos = Math.acos, asin = Math.asin, atan = Math.atan, atan2 = Math.atan2,
       max = Math.max, min = Math.min, pow = Math.pow, random = Math.random;
   definition = 'var definition = undefined; function setPixels(x, y) {' + definition + '}';
-  definition = definition.replace('return [ r%256, g%256, b%256 ]', 'return [ r, g, b ]');
   eval(definition);
   return setPixels;
 };

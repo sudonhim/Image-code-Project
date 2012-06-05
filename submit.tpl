@@ -31,7 +31,7 @@
         var $progressBorder = $('.progressBorder').hide();
         $imageCodeText.val(defaultText);
         editor.setValue(defaultText);
-        $imageContainer.css({ width: 500, height: 500 });
+        $imageContainer.css({ width: 450, height: 450 });
         canvas.width = $imageContainer.width();
         canvas.height = $imageContainer.height();
                            
@@ -40,20 +40,21 @@
           var data = event.data;
           if (data.progress) {
             $progressBar.css({ width: parseInt(data.progress) + '%', height: '100%' });
-          } else if (data.uri) {
+          } else if (data.colors) {
             $progressBar.css({ width: parseInt(data.progress) + '100%', height: '100%' });
             var pixelArray = data.colors;
+            $(image).remove();
             image = new Image();
-            image.src = data.uri;
+            var imageData = context.createImageData($imageContainer.width(), $imageContainer.height());
+            var i=0; length = pixelArray.length;
+            for (i=0; i<length; ++i) {
+              imageData.data[i] = pixelArray[i];
+            }
+            context.putImageData(imageData, 0, 0);
+            image.src = canvas.toDataURL('image/png');
+            $imageContainer.prepend(image);
             image.onload = function() {
               $progressBorder.fadeOut();
-              context.drawImage(image, 0, 0);
-              var uri = canvas.toDataURL('image/png');
-              $imageContainer.empty();
-              $imageContainer.append($progressBorder);
-              image = new Image();
-              image.src = uri;
-              $imageContainer.prepend(image);
               if (!previewMode) {
                 $.ajax({
                   type: "POST",
@@ -72,7 +73,7 @@
           $progressBar.css({ width: '0%', height: '100%' });
           previewMode = preview;
           code = editor.getValue() || '';
-          code = 'var r=0, g=0, b=0;\n' + code + '\nreturn [ r%256, g%256, b%256 ];';
+          code = 'var r=0, g=0, b=0;\n' + code + '\nreturn [ r, g, b ];';
           imageWorker.postMessage({
             width: $imageContainer.width(),
             height: $imageContainer.height(),
