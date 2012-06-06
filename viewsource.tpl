@@ -23,15 +23,23 @@
 %end
 
 <code>
-<p><b>Source for {{name}}</b></p>
-<img src="/images/linebreak.png">
-<div class='codeBlock'>
-<pre><code data-language="{{language}}">{{code}}</code></pre>
+<div>
+  <b>Source for {{name}}</b>
+  <br />
+  <img src="/images/linebreak.png">
 </div>
-<img src="/images/linebreak.png">
-</code>  
-<br />
-<img src="/images/{{name+'.png'}}">
+<p>
+  <div class='codeBlock'>
+  <pre><code data-language="{{language}}">{{code}}</code></pre>
+  </div>
+</p>
+</code>
+
+<div>
+  <img src="/images/linebreak.png">
+  <br />
+  <img src="/images/{{name+'.png'}}">
+</div>
 
 </font>
 </body>
