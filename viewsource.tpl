@@ -48,7 +48,7 @@
 
 
   <table style="width:100%;">
-  <td style="float:right;vertical-align:top;width=47%;">
+  <td width="47%" style="float:right;vertical-align:top;">
   
       <b>Source for {{name}} ({{language}})</b>
       %if language == 'javascript':
@@ -63,9 +63,9 @@
     </div>
   </td>
   
-  <td style="width:6%"></td>  
+  <td width="6%"></td>  
   
-  <td style="text-align:left;vertical-align:top;padding-top:14px;width=47%;">
+  <td width="47%" style="text-align:left;vertical-align:top;padding-top:14px;">
     <img src="/images/{{name+'.png'}}">
   </td>
   </table>

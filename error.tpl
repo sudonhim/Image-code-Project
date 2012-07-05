@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="en">
+
+<link rel="stylesheet" href="/stylesheet.css" type="text/css">
+
+<head>
+  <title>Image-code Project</title>
+</head>
+
+<body>
+
+  <div class="header">
+  <table>
+  
+    <td>
+      <b>Image-code Project</b>
+      ::
+      <a href="/gallery/0">Gallery</a>
+      |
+      <a href='/submit'>Submit</a>
+      |
+      <a href='/help'>Help/About</a>
+    </td>
+    
+    <td style="text-align:center;">
+      <b>Error</b>
+    </td>
+    
+    <td style="text-align:right;">
+    </td>
+    
+  </table>
+  </div>
+  
+  <br />
+  <br />
+  <br />
+
+
+
+  <p class="errormsg">{{message}}</p>
+
+</font>
+</body>
+</html>

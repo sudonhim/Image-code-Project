@@ -1,6 +1,6 @@
 html,body {
 	font-family:"Segoe UI";
-	font-size:11px;
+	font-size:12px;
 	margin:0;border:0;padding:4px;
 }
 
@@ -47,4 +47,10 @@ html,body {
 	-webkit-box-shadow: 2px 2px 2px 0px #000;
 	   -moz-box-shadow: 2px 2px 2px 0px #000;	
 	        box-shadow: 2px 2px 2px 0px #000;
+}
+
+.errormsg {
+	text-align:center;
+	color:red;
+	font-weight:bold;
 }

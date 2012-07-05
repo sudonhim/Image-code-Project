@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <html lang="en">
+
+<link rel="stylesheet" href="/stylesheet.css" type="text/css">
+
   <head>
     <title>Image-code JS</title>
     <link href="/js/stylesheet.css" rel="stylesheet" type="text/css"></link>
@@ -22,7 +25,6 @@
         var context = canvas.getContext('2d');
         var image = new Image();
         var editor = CodeMirror.fromTextArea($imageCodeText[0], {
-          lineNumbers: true,
           matchBrackets: true
         });
         var code = '';
@@ -94,27 +96,75 @@
           loadImage(true);
         });
         
+        loadImage(true);
+        
       });
     </script>
   </head>
   <body>
+  
+  <div class="header">
+  <table>
+  <tr>
+  
+    <td>
+      <b>Image-code Project</b>
+      ::
+      <a href="/gallery/0">Gallery</a>
+      |
+      <a href='/submit'>Submit</a>
+      |
+      <a href='/help'>Help/About</a>
+    </td>
+    
+    <td style="text-align:center;">
+      <b>Submit</b>
+    </td>
+    
+    <td style="text-align:right;">
+    </td>
+    
+  </tr>
+  </table>
+  </div>
+  
+  <br />
+  <br />
+  <br />
+  
+  <table style="width:100%;">
+
+    <td width="47%" style="float:right;vertical-align:top;"> 
     <div id="container">
-      <div id="imageContainer"><div class="progressBorder"><div class="progressBar"></div></div></div>
       <div id="codeContainer">
         <div id="codeBlock">
-          function setPixel(x, y) {
+          <b>function setPixel(x, y) {</b>
           <br/>
           &nbsp;&nbsp;&nbsp;var r, g, b;
           <br />
-          &nbsp;&nbsp;&nbsp;<textarea id="code" name="code" rows="20" cols="80"></textarea>
+          <textarea id="code" name="code"></textarea>
           <br />
           &nbsp;&nbsp;&nbsp;return [ r % 256, g % 256, b % 256 ];        
           <br/>
-          } 	Your name: <input type="text" id="user" name="user"/>
+          }
         </div>
-        <button id="textPreview">Preview</button>
-        <button id="textSubmit">Submit</button>
       </div>
     </div>
-  </body>
+    </td>
+  
+    <td width="6%"></td>  
+  
+    <td width="47%" style="text-align:left;vertical-align:top;">
+    <div id="imageContainer"><div class="progressBorder"><div class="progressBar"></div></div></div>
+    </td>
+    
+  </table>
+  
+  <p style="text-align:center;">
+  Name: <input type="text" id="user" name="user"/>
+  <button id="textPreview">Preview</button>
+  <button id="textSubmit">Submit</button> 
+  </p>
+  
+</body>
 </html>

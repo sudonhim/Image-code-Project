@@ -1,13 +1,3 @@
-html, body {
-  font-family: "Arial", sans-serif;
-  font-size: 14px;
-  margin: 2px;
-  padding: 2px;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-}
-
 #codeBlock {
   font-family: "Courier New", Courier, monospace;
 }
@@ -19,6 +9,7 @@ html, body {
 }
 
 .CodeMirror {
+  lineNumbers: false;
   border: 1px solid black;
   max-width: 600px;
   margin-left: 26px;

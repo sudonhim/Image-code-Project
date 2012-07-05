@@ -108,7 +108,7 @@ ERROR_MSGS = {"duplicate": "The image you submitted already exists!"
     
 @route('/error/<errorname>')
 def errormsg(errorname):
-    return ERROR_MSGS[errorname]
+    return template('error', message=ERROR_MSGS[errorname])
   
 
 ########################################################################
