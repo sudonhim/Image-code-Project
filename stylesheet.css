@@ -1,8 +1,50 @@
-html, body {
-  font-family: "Arial", sans-serif;
-  font-size: 14px;
-  margin: 2px;
-  padding: 2px;
-  width: 100%;
-  height: 100%;
+html,body {
+	font-family:"Segoe UI";
+	font-size:11px;
+	margin:0;border:0;padding:4px;
+}
+
+.header {
+	position:fixed;
+	top:0px;
+	left:0px;
+	width:100%;
+	background:black;
+	color:white;
+}
+.header a {
+	color:#E8E8E8;
+	padding: 0px 4px;
+}
+.header a:hover {
+	color:white;
+	background:darkgrey;
+}
+.header table {
+	width:100%;
+	padding:4px;
+}
+.header td {
+	width:33%;
+}
+
+.images_area {
+	padding: 8px;
+	text-align:center;
+}
+
+
+.image_tile {
+	border:   0px;
+	width:  200px;
+	height: 200px;
+	-webkit-box-shadow: 2px 2px 4px 0px #CCC;
+	   -moz-box-shadow: 2px 2px 4px 0px #CCC;	
+	        box-shadow: 2px 2px 4px 0px #CCC;
+	margin: 4px;
+}
+.image_tile:hover {
+	-webkit-box-shadow: 2px 2px 2px 0px #000;
+	   -moz-box-shadow: 2px 2px 2px 0px #000;	
+	        box-shadow: 2px 2px 2px 0px #000;
 }

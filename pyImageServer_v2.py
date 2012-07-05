@@ -4,26 +4,39 @@ import re
 
 import os, time, re, base64
 from PIL import Image
-from numpy import zeros
 
 
 @route('/')
-def index():
+def gallery():
+    return redirect('/gallery/0')
+
+IMAGES_PER_PAGE = 80
+@route('/gallery/<imageNum:int>')
+def gallerypages(imageNum):
     imgurls, contribs = [],[]
-    for img in Saved_Images:
+    numberofImages = min(IMAGES_PER_PAGE,len(Saved_Images)-imageNum)
+    for img in Saved_Images[imageNum:imageNum+numberofImages]:
         contribs.append(img[0])
         imgurls.append(img[1])
-    return template('index',imageurls=imgurls,contributors=contribs)
+    return template('gallery',
+                    imageurls=imgurls,contributors=contribs,
+                    imageNum=imageNum,totalImages=len(Saved_Images),
+                    imagesPerPage=IMAGES_PER_PAGE)
+
 
 
 @route('/js/<fname:path>')
-def image(fname):
+def jsfile(fname):
     return static_file(fname, root=os.curdir+"/js")
 
+@route('/stylesheet.css')
+def stylesheet():
+    return static_file("stylesheet.css", root=os.curdir)
 
 @route('/images/<fname:path>')
 def image(fname):
     return static_file(fname, root=os.curdir+"/images")
+
 
 
 @route('/code/<fname:path>')
@@ -121,7 +134,7 @@ def loadImages():
         
 def saveImage(data, imghash, code, user):
     Image_Hashes.add(imghash)
-    img_fname = user+"-"+str(int(time.time()))
+    img_fname = user+"-"+str(int(time.time()*100))
     f = open("images/"+img_fname+".png", 'wb')
     f.write(data)
     f.close()

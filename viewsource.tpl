@@ -2,6 +2,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <html lang="en">
 
+<link rel="stylesheet" href="/stylesheet.css" type="text/css">
+
 <head>
   <title>Image-code Project</title>
   <script src="/js/rainbow.min.js"></script>
@@ -13,33 +15,60 @@
 
 <body>
 
-<font face="consolas">
-  <h1>Image-code Project</h1>
-%if language == 'javascript':
-  <p><a href="/submit/{{name}}">Reuse this code</a>, or <a href='/'>Return to Gallery</a></p>
-%else:
-  <p>Cannot be re-used - <a href='/'>Return to Gallery</a></p>
-  <p>Note: This code is written in {{language}}, and comes from a different version of this site</p>
-%end
-
-<code>
-<div>
-  <b>Source for {{name}}</b>
-  <br />
-  <img src="/images/linebreak.png">
-</div>
-<p>
-  <div class='codeBlock'>
-  <pre><code data-language="{{language}}">{{code}}</code></pre>
+  <div class="header">
+  <table>
+  <tr>
+  
+    <td>
+      <b>Image-code Project</b>
+      ::
+      <a href="/gallery/0">Gallery</a>
+      |
+      <a href='/submit'>Submit</a>
+      |
+      <a href='/help'>Help/About</a>
+    </td>
+    
+    <td style="text-align:center;">
+      <b>Source</b>
+    </td>
+    
+    <td style="text-align:right;">
+      {{name}}
+    </td>
+    
+  </tr>
+  </table>
   </div>
-</p>
-</code>
-
-<div>
-  <img src="/images/linebreak.png">
+  
   <br />
-  <img src="/images/{{name+'.png'}}">
-</div>
+  <br />
+  <br />
+
+
+
+  <table style="width:100%;">
+  <td style="float:right;vertical-align:top;width=47%;">
+  
+      <b>Source for {{name}} ({{language}})</b>
+      %if language == 'javascript':
+        <p><a href="/submit/{{name}}"><b>Reuse this code</b></a></p>
+      %else:
+        <p><b>Cannot be re-used</b></p>
+        <p>Note: This code is written in {{language}}, and comes from a different version of this site</p>
+      %end
+      
+    <div class='codeBlock' style="width:450px;">
+    <pre><code data-language="{{language}}">{{code}}</code></pre>
+    </div>
+  </td>
+  
+  <td style="width:6%"></td>  
+  
+  <td style="text-align:left;vertical-align:top;padding-top:14px;width=47%;">
+    <img src="/images/{{name+'.png'}}">
+  </td>
+  </table>
 
 </font>
 </body>
