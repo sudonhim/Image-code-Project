@@ -25,8 +25,15 @@
         var context = canvas.getContext('2d');
         var image = new Image();
         var editor = CodeMirror.fromTextArea($imageCodeText[0], {
-          matchBrackets: true
+          matchBrackets: true,
+          onChange: loadPreview
         });
+        
+        var ready = false
+        function loadPreview(event){ 
+        if (ready) { loadImage(true) }
+        }
+        
         var code = '';
         var previewMode = true;
         var $progressBar = $('.progressBar');
@@ -92,10 +99,7 @@
           loadImage(false);
         });
         
-        $textPreview.click(function() {
-          loadImage(true);
-        });
-        
+        ready = true;
         loadImage(true);
         
       });
@@ -162,7 +166,6 @@
   
   <p style="text-align:center;">
   Name: <input type="text" id="user" name="user"/>
-  <button id="textPreview">Preview</button>
   <button id="textSubmit">Submit</button> 
   </p>
   

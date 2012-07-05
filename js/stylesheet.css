@@ -17,14 +17,14 @@
 
 .progressBar {
   position: relative;
-  background-color: #00cc00;
+  background-color: rgba(0,0,0,50);
 }
 
 .progressBorder {
   position: absolute;
   left: 10px;
   top: 10px;
-  border: 1px solid black;
+  border: 1px solid white;
   height: 25px;
   width: 100px;
   border-radius: 3px;
