@@ -2,56 +2,96 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <html lang="en">
 
+<link rel="stylesheet" href="/stylesheet.css" type="text/css">
+
 <head>
-  <title>Image-code Project/title>
+  <title>Image-code Project</title>
 </head>
 
 <body>
 
-<font face="consolas">
-  <h1>Image-code Project</h1>
+  <div class="header">
+  <table>
+  <tr>
   
-<p><a href='/submit'>Make your own!</a>, or <a href='/'>Return to Gallery</a></p>
+    <td>
+      <b>Image-code Project</b>
+      ::
+      <a href="/gallery/0">Gallery</a>
+      |
+      <a href='/submit'>Submit</a>
+      |
+      <a href='/help'>Help/About</a>
+    </td>
+    
+    <td style="text-align:center;">
+      <b>Help/About</b>
+    </td>
+    
+    <td style="text-align:right;">
+    </td>
+    
+  </tr>
+  </table>
+  </div>
+  
+  <br />
+  <br />
+  <br />
 
-<h3>About</h3>
-This webserver allows you to generate images using a<br />
-subset of the Python programming language.It runs on<br />
-a CherryPy server, and requests are handled by a<br />
-Python program in the Bottle framework.<br />
-<br />
+  <table width="100%">
+  
+  <td width="33%"></td>
+  
+  <td width="34%">
+  
+    <h3>About</h3>
+    <p>
+    Image-code was started in May 2012 as a place where users could generate images on
+    the server by submitting Python code. The site was then rebuilt and image processing
+    was switched to Javascript so that it could be done client-side. Image-code is intended
+    to promote coding for fun, and cater to all skill levels. The project has an open-source
+    GitHub repository <a href="https://github.com/SudoNhim/Image-code-Project">here</a>.
+    </p>
+    <br />
+    
+    <h3>Getting started</h3>
+    <p>
+    The best way to get going with Image-code, is to modify somebody
+    else's submission. To do this, choose an image from the main gallery
+    that you would like to change and click it to view its source.
+    Then click reuse code to open a new submission based on that code.
+    Note that some older images may not be able to be reused.
+    </p>
+    <br />
+    
+    <h3>Making images</h3>
+    <p>
+    Each image is defined by a function <b>getPixel(x,y)</b>,
+    which maps the <b>x,y</b> position of each pixel in the image
+    to an <b>r,g,b</b> value. To generate an image, you must
+    complete the getPixel function, so that <b>r,g</b> and <b>b</b> are
+    defined for each <b>x,y</b> coordinate on the image.
+    Arguments <b>x,y</b> are floats from 0.0 to 1.0 increasing
+    from the top left corner of the image, and <b>r,g,b</b> are,
+    numbers from 0 to 255.
+    </p>
+    <br />
+    
+    <h3>What code can I use?</h3>
+    <p>
+    Currently, only Javascript is supported (more languages may be added soon).
+    The contents of Javascript's math library are included in the scope of the
+    <b>getPixel</b> function, so sin, exp, atan ect can be used without prefix.
+    </p>
+    <br />
+    
+    Have fun!
+  </td>
+  
+  <td width="33%"> </td>
+  
+  </table>
 
-<h3>Making images</h3>
-Each image is defined by a function <b>getPixel(x,y)</b>,<br />
-which maps the <b>x,y</b> position of each pixel in the image<br />
-to an <b>r,g,b</b> value. To generate an image, you must<br />
-complete the getPixel function, so that <b>r,g</b> and <b>b</b> are<br />
-defined for each <b>x,y</b> coordinate on the image.<br />
-Arguments <b>x,y</b> are floats from 0.0 to 1.0 increasing<br />
-from the top left corner of the image, and <b>r,g,b</b> are,<br />
-integers from 0 to 255. Note that they will be<br />
-automatically converted from floats and will overflow<br />
-if too large/small.<br />
-<br />
-
-<h3>What code can I use?</h3>
-For security, the code is executed in a much smaller<br />
-subset of the Python language, but it should provide<br />
-everything you need.<br />
-In addition to basic syntax, the
-<a href="http://docs.python.org/library/math.html"> Python math library</a><br />
-is available, functions like sin(x), tanh(x), exp(x)<br />
-should work. Note that execution is timeboxed, so<br />
-if your code is overly demanding or has an infinite<br />
-loop you will get an error.<br />
-<br />
-
-<h3>Viewing source</h3>
-The easiest way to get started, is to modify somebody<br />
-else's submission. To view the source for an existing<br />
-image, simply click on it in the main gallery.<br />
-<br />
-Have fun! :D
-
-</font>
 </body>
 </html>
