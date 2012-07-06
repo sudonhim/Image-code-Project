@@ -139,7 +139,7 @@
   
   <table style="width:100%;">
 
-    <td width="47%" style="float:right;vertical-align:top;"> 
+    <td width="450px" style="float:right;vertical-align:top;"> 
     <div id="container">
       <div id="codeContainer">
         <div id="codeBlock">
@@ -157,9 +157,9 @@
     </div>
     </td>
   
-    <td width="6%"></td>  
+    <td width="5%"></td>  
   
-    <td width="47%" style="text-align:left;vertical-align:top;">
+    <td width="45%" style="text-align:left;vertical-align:top;">
     <div id="imageContainer"><div class="progressBorder"><div class="progressBar"></div></div></div>
     </td>
     

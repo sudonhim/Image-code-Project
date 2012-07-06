@@ -76,7 +76,7 @@ def submit_derivative(fname):
     except IOError:
         code = ("This is not a valid JavaScript source file.")
     code = code.replace("\n",r"\n")
-    code = code.replace("'",r"'")
+    code = code.replace("'","\\'")
     return template('submit', startWithCode=code)
 
 
