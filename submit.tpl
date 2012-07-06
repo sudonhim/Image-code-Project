@@ -44,8 +44,8 @@
         canvas.width = $imageContainer.width();
         canvas.height = $imageContainer.height();
                            
-        var imageWorker = new Worker('/js/imageworker.js');
-        imageWorker.onmessage = function(event) {
+        
+        function onmessage(event) {
           var data = event.data;
           if (data.progress) {
             $progressBar.css({ width: parseInt(data.progress) + '%', height: '100%' });
@@ -82,8 +82,13 @@
           }
         };
         
+        var imageWorker = new Worker('/js/imageworker.js');
+        
         function loadImage(preview) {
-          $progressBorder.fadeIn();
+          imageWorker.terminate();
+          imageWorker = new Worker('/js/imageworker.js');
+          imageWorker.onmessage = onmessage;
+          $progressBorder.show();
           $progressBar.css({ width: '0%', height: '100%' });
           previewMode = preview;
           code = editor.getValue() || '';
