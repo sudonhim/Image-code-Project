@@ -44,6 +44,11 @@ worker.onmessage = function(event) {
 
 var getFunction = function(definition, width, height) {
   var worker = XMLHttpRequest = Worker = importScripts = undefined;
+  
+  // as Javascripts modulus operator fails for negative numbers
+  function fixedModulus(x,m) { return ((x%m)+m)%m; };
+  var mod = fixedModulus;
+  
   var sin = Math.sin, PI = Math.PI, pi = Math.PI, cos = Math.cos, 
       tan = Math.tan, log = Math.log, sqrt = Math.sqrt, abs = Math.abs,
       floor = Math.floor, ceil = Math.ceil, round = Math.round, exp = Math.exp,

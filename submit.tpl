@@ -92,7 +92,7 @@
           $progressBar.css({ width: '0%', height: '100%' });
           previewMode = preview;
           code = editor.getValue() || '';
-          code = 'var r=0, g=0, b=0;\n' + code + '\nreturn [ r % 256, g % 256, b % 256 ];';
+          code = 'var r=0, g=0, b=0;\n' + code + '\nreturn [ mod(r,256), mod(g,256), mod(b,256) ];';
           imageWorker.postMessage({
             width: $imageContainer.width(),
             height: $imageContainer.height(),
@@ -154,7 +154,7 @@
           <br />
           <textarea id="code" name="code"></textarea>
           <br />
-          &nbsp;&nbsp;&nbsp;return [ r % 256, g % 256, b % 256 ];        
+          &nbsp;&nbsp;&nbsp;return [ mod(r,256), mod(g,256), mod(b,256) ];        
           <br/>
           }
         </div>

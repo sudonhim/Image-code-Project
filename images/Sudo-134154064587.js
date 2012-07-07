@@ -3,14 +3,11 @@ function setPixel(x,y) {
   x = 4*(x-0.5)
   y = 4*(y-0.5)
      
-  f = cos(abs(x)+abs(y))*(abs(x)+abs(y))
+  f = cos( pow( abs(x)+abs(y), 2) )
      
-  // because Javascript modulus doesn't work properly
-  // for negative number, need to add a multiple of
-  // 256 for correct overflow
-  g = 2560+256*f
-  r = 256+x*f
-  b = 256+y*f
+  g = 256*f
+  r = 256*x*f
+  b = 256*y*f
     
-  return [ r % 256, g % 256, b % 256 ];
+  return [ mod(r,256), mod(g,256), mod(b,256) ];
 }

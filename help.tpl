@@ -82,7 +82,9 @@
     <p>
     Currently, only Javascript is supported (more languages may be added soon).
     The contents of Javascript's math library are included in the scope of the
-    <b>getPixel</b> function, so sin, exp, atan ect can be used without prefix.
+    <b>getPixel</b> function, so sin, exp, atan ect can be used without prefix.<br />
+    IMPORTANT: In Javascript, the "%" operator is for remainder, not modulus. For
+    a modulus that works with negative numbers, use the <b>mod</b> function instead.
     </p>
     <br />
     

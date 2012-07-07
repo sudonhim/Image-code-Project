@@ -13,5 +13,5 @@ function setPixel(x,y) {
   g = min(g*255, 255)
   b = min(b*255, 255)
   
-  return [ r % 256, g % 256, b % 256 ];
+  return [ mod(r,256), mod(g,256), mod(b,256) ];
 }
