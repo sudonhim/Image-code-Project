@@ -142,9 +142,9 @@
   <br />
   <br />
   
-  <table style="width:100%;">
+  <div style="width:920px;margin-left:auto;margin-right:auto;">
 
-    <td width="450px" style="float:right;vertical-align:top;"> 
+    <div style="width:450px;float:left;"> 
     <div id="container">
       <div id="codeContainer">
         <div id="codeBlock">
@@ -160,20 +160,18 @@
         </div>
       </div>
     </div>
-    </td>
+    </div>
   
-    <td width="5%"></td>  
-  
-    <td width="45%" style="text-align:left;vertical-align:top;">
+    <div style="width:450px;float:right;">
     <div id="imageContainer"><div class="progressBorder"><div class="progressBar"></div></div></div>
-    </td>
+    </div>
     
-  </table>
+    <p style="text-align:center;">
+    Name: <input type="text" id="user" name="user"/>
+    <button id="textSubmit">Submit</button> 
+    </p>
   
-  <p style="text-align:center;">
-  Name: <input type="text" id="user" name="user"/>
-  <button id="textSubmit">Submit</button> 
-  </p>
+  </div>
   
 </body>
 </html>

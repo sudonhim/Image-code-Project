@@ -47,29 +47,26 @@
 
 
 
-  <table style="width:100%;">
-  <td width="47%" style="float:right;vertical-align:top;">
+  <div style="width:920px;margin-left:auto;margin-right:auto;">
   
-      <b>Source for {{name}} ({{language}})</b>
-      %if language == 'javascript':
-        <p><a href="/submit/{{name}}"><b>Reuse this code</b></a></p>
-      %else:
-        <p><b>Cannot be re-used</b></p>
-        <p>Note: This code is written in {{language}}, and comes from a different version of this site</p>
-      %end
-      
-    <div class='codeBlock' style="width:450px;">
-    <pre><code data-language="{{language}}">{{code}}</code></pre>
-    </div>
-  </td>
+    <b>Source for {{name}} ({{language}})</b>
+    %if language == 'javascript':
+      <p><a href="/submit/{{name}}"><b>Reuse this code</b></a></p>
+    %else:
+      <p><b>Cannot be re-used</b></p>
+      <p>Note: This code is written in {{language}}, and comes from a different version of this site</p>
+    %end
+    
+  <div class='codeBlock' style="width:450px;float:left;">
+  <pre><code data-language="{{language}}">{{code}}</code></pre>
+  </div>
   
-  <td width="6%"></td>  
   
-  <td width="47%" style="text-align:left;vertical-align:top;padding-top:14px;">
+  <div" style="width:450px;float:right;">
+  <br />
     <img src="/images/{{name+'.png'}}">
-  </td>
-  </table>
+  </div>
+  </div>
 
-</font>
 </body>
 </html>

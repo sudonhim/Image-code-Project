@@ -119,22 +119,28 @@ def loadImages():
     fnames = os.listdir(os.curdir+'/images')
     images = []
     hashes = set()
+    used_fnames = set()
     print "Loading/hashing images..."
     for name in fnames:
         if name.split('.')[-1] == 'png' and len(name.split('-')) == 2:
             f = open(os.curdir+'/images/'+name, 'rb')
             hashes.add(hash(f.read()))
+            used_fnames.add(name[:-4])
             f.close()
             username, date = name[:-4].split('-')
             name = name[:-4]
             images.append( (username, name, date) )
 
     print len(hashes), "images loaded."
-    return sorted(images, key=lambda image: image[2], reverse=True), hashes
+    return sorted(images, key=lambda image: image[2], reverse=True), hashes, used_fnames
         
 def saveImage(data, imghash, code, user):
     Image_Hashes.add(imghash)
     img_fname = user+"-"+str(int(time.time()*100))
+    i=1
+    while img_fname in Used_Filenames:
+        user+str(i)+"-"+str(int(time.time()*100))
+        i +=1
     f = open("images/"+img_fname+".png", 'wb')
     f.write(data)
     f.close()
@@ -146,7 +152,7 @@ def saveImage(data, imghash, code, user):
 
 
 if __name__ == '__main__':
-    Saved_Images, Image_Hashes = loadImages()
+    Saved_Images, Image_Hashes, Used_Filenames = loadImages()
     debug = False
     if debug:
         bottle.debug()
