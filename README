@@ -1,7 +1,7 @@
 Image-code is an image-board-like webserver, except instead of uploading images,
 users generate them programmatically by filling out a function stub.
 
-This website is currently up at http://metahub-remote.no-ip.info until it gets
-its own domain.
+This website is hosted at http://sudonhim.net
+This will probably change soon to http://image-code.sudonhim.net
 
 For any questions/comments/ideas/criticism please email me at brenton.a.milne@gmail.com
