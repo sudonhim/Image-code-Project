@@ -32,6 +32,9 @@ html,body {
 	padding: 8px;
 	text-align:center;
 }
+.images_area a {
+	text-decoration:none;
+}
 
 
 .image_tile {

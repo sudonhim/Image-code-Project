@@ -5,6 +5,7 @@ import re
 import os, time, re, base64
 from PIL import Image
 
+bottle.BaseRequest.MEMFILE_MAX = 4000000
 
 @route('/')
 def gallery():
