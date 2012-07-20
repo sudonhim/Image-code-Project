@@ -6,9 +6,12 @@ function setPixel(x,y) {
   b = 255*sin(pi*(t+ (PI / 8)));
   
   var rad = (sqrt((x-0.5)*(x-0.5)+(y-0.5)*(y-0.5)));
-  var mod = 0.5 + 0.5*sin(16*pi*rad);
-  r *= mod;
-  g *= mod;
-  b *= mod;
+  //WARNING - this code snippet was written before
+  //the mod() function was implemented to replace
+  //Javascripts remainder function (see help/about)
+  var mod1 = 0.5 + 0.5*sin(16*pi*rad);
+  r *= mod1;
+  g *= mod1;
+  b *= mod1;
   return [ mod(r,256), mod(g,256), mod(b,256) ];
 }
