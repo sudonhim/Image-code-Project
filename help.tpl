@@ -39,15 +39,11 @@
   <br />
   <br />
 
-  <table width="100%">
-  
-  <td width="33%"></td>
-  
-  <td width="34%">
+  <div class="information">
   
     <h3>About</h3>
     <p>
-    Image-code was started in May 2012 as a place where users could generate images on
+    Image-code was started in May 2012 as a prototype gallery where users could generate images on
     the server by submitting Python code. The site was then rebuilt and image processing
     was switched to Javascript so that it could be done client-side. Image-code is intended
     to promote coding for fun, and cater to all skill levels. The project has an open-source
@@ -89,11 +85,8 @@
     <br />
     
     Have fun!
-  </td>
-  
-  <td width="33%"> </td>
-  
-  </table>
+
+    </div>
 
 </body>
 </html>
