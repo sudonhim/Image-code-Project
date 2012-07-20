@@ -1,11 +1,13 @@
-from bottle import route, post, request, run, static_file, redirect, template, CherryPyServer
+from bottle import route, post, request, run, static_file, redirect
+from bottle import template, CherryPyServer
 import bottle
 import re
 
-import os, time, re, base64
+bottle.BaseRequest.MEMFILE_MAX = 4000000
+
+import os, time, re, base64, sys
 from PIL import Image
 
-bottle.BaseRequest.MEMFILE_MAX = 4000000
 
 @route('/')
 def gallery():
@@ -154,12 +156,14 @@ def saveImage(data, imghash, code, user):
 
 if __name__ == '__main__':
     Saved_Images, Image_Hashes, Used_Filenames = loadImages()
-    debug = False
-    if debug:
+    if len(sys.argv) >= 2 and sys.argv[1] != "debug":
+		host = sys.argv[1]
+		if len(sys.argv) == 3:
+			port = int(sys.argv[2])
+		else:
+			port = 80
+    else:
         bottle.debug()
         host = 'localhost'
         port=8080
-    else:
-        host = 'metahub-remote.no-ip.info'
-        port=80
-    run(server='cherrypy', host=host, port=port)
+    run(server = 'cherrypy', host=host, port=port)
