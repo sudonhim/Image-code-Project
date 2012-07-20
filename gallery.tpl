@@ -50,7 +50,7 @@
   <div class="images_area">
     %for i in range(len(imageurls)):
       %contributor = contributors[i]
-      %imgurl = "/images/"+imageurls[i]+".png"
+      %imgurl = "/images/thumbnails/"+imageurls[i]+"-thumb.png"
       %codeurl = "/code/"+imageurls[i]
         <a href="{{codeurl}}">
            <img

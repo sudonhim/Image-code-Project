@@ -152,6 +152,10 @@ def saveImage(data, imghash, code, user):
     f.write(code)
     f.close()
     Saved_Images.insert( 0,(user, img_fname, str(int(time.time()))) )
+    #Now make thumbnail
+    im = Image.open("images/"+img_fname+".png")
+    im.thumbnail((200,200), Image.ANTIALIAS)
+    im.save("images/thumbnails/"+img_fname+"-thumb.png", "PNG")
 
 
 if __name__ == '__main__':
