@@ -16,6 +16,7 @@ def gallery():
 IMAGES_PER_PAGE = 80
 @route('/gallery/<imageNum:int>')
 def gallerypages(imageNum):
+    print "User arrived at gallery..."
     imgurls, contribs = [],[]
     numberofImages = min(IMAGES_PER_PAGE,len(Saved_Images)-imageNum)
     for img in Saved_Images[imageNum:imageNum+numberofImages]:
@@ -44,37 +45,42 @@ def image(fname):
 
 @route('/code/<fname:path>')
 def view_source(fname):
-        language = 'generic'
+    print "User viewing source of "+fname
+    language = 'generic'
+    try:
+        code = open(os.curdir+'/images/'+fname+'.js').read()
+        language = 'javascript'
+    except IOError:
         try:
-            code = open(os.curdir+'/images/'+fname+'.js').read()
-            language = 'javascript'
+            code = open(os.curdir+'/images/'+fname+'.py').read()
+            language = 'python'
         except IOError:
-            try:
-                code = open(os.curdir+'/images/'+fname+'.py').read()
-                language = 'python'
-            except IOError:
-                code = ("No source found for this image, it may be from an "+
-                        "older\nversion of pyImageServer")
-        return template('viewsource', code=code, name=fname, language=language)
+            code = ("No source found for this image, it may be from an "+
+                    "older\nversion of pyImageServer")
+    return template('viewsource', code=code, name=fname, language=language)
         
     
 
 @route('/help')
 def show_help():
+    print "User loaded help..."
     return template('help')
     
     
 
 @route('/submit')
 def submit():
+    print "User went to submit page..."
     defaultCode = r"r = x * 255;\ng = y * 255;\nb = 0;"
     return template('submit', startWithCode=defaultCode)
 
 @route('/submit/<fname:path>')
 def submit_derivative(fname):
+    print "User is modifying "+fname
     try:
         code = ""
-        lines = re.split('\n|\r', open(os.curdir+'/images/'+fname+'.js').read())
+	codeString = open(os.curdir+'/images/'+fname+'.js').read()
+        lines = codeString.splitlines()
         for line in lines[2:-2]: code += line[2:]+'\n'
     except IOError:
         code = ("This is not a valid JavaScript source file.")
@@ -111,6 +117,7 @@ ERROR_MSGS = {"duplicate": "The image you submitted already exists!"
     
 @route('/error/<errorname>')
 def errormsg(errorname):
+    print "User recieved error: "+errorname
     return template('error', message=ERROR_MSGS[errorname])
   
 
@@ -135,7 +142,8 @@ def loadImages():
             images.append( (username, name, date) )
 
     print len(hashes), "images loaded."
-    return sorted(images, key=lambda image: image[2], reverse=True), hashes, used_fnames
+    return (sorted(images, key=lambda image: image[2], reverse=True),
+            hashes, used_fnames)
         
 def saveImage(data, imghash, code, user):
     Image_Hashes.add(imghash)
