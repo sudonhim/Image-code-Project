@@ -101,7 +101,10 @@ def submit_image_POST():
     if len(user)>50:
         user = user[:50]
     uri = request.forms.get('uri')
-    uri = uri + '=' * (4 - len(uri) % 4)
+
+    if uri[-4:] != '||||':
+	return "invalid"
+    uri = uri[:-4] + '=' * (4 - len(uri) % 4)
     uri = re.search(r'base64,(.*)', uri).group(1)
     data = base64.urlsafe_b64decode(uri)
     imghash = hash(data)
@@ -112,7 +115,8 @@ def submit_image_POST():
         return "duplicate"
     
     
-ERROR_MSGS = {"duplicate": "The image you submitted already exists!"
+ERROR_MSGS = {"duplicate": "The image you submitted already exists!",
+              "invalid"  : "The data recieved was invalid or corrupt."
               }
     
 @route('/error/<errorname>')

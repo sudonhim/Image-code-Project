@@ -24,7 +24,7 @@
       <a href='/help'>Help/About</a>
     </td>
     
-    <td style="text-align:center;">
+    <td style="text-align:center;width:10%;">
       <b>Help/About</b>
     </td>
     

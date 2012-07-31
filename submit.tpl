@@ -69,13 +69,13 @@
                 $.ajax({
                   type: "POST",
                   url: "/imageSubmitted",
-                  data: { user: $user.val(), code: code, uri: uri }
+                  data: { user: $user.val(), code: code, uri: uri+'||||' }
                 }).done(function(response) {
                   if (response=='success') {
                     window.location = '/';
-                  } else if (response=='duplicate') {
-                    window.location = '/error/duplicate';
-                  } else { window.location=response }
+                  } else {
+                    window.location = '/error/'+response;
+                  }
                 });
               }
             };
@@ -126,7 +126,7 @@
       <a href='/help'>Help/About</a>
     </td>
     
-    <td style="text-align:center;">
+    <td style="text-align:center;width:10%;">
       <b>Submit</b>
     </td>
     
