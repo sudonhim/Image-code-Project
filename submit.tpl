@@ -43,62 +43,99 @@
         $imageContainer.css({ width: 450, height: 450 });
         canvas.width = $imageContainer.width();
         canvas.height = $imageContainer.height();
-                           
+                
+                     
+        var threadProgress = [0,0,0,0]; 
+        var imageData = context.createImageData($imageContainer.width(), $imageContainer.height());
+        
+        function imageProgress() {
+          var sum = 0;
+          for (var i=0; i<4; i++) {
+            sum += threadProgress[i];
+          };
+          return sum/4;
+        };
+        
+        
         
         function onmessage(event) {
           var data = event.data;
+          
           if (data.progress) {
-            $progressBar.css({ width: parseInt(data.progress) + '%', height: '100%' });
+            $progressBar.css({ width: 100*imageProgress()+'%', height: '100%' });
+            threadProgress[data.offset] = data.progress;
+            
           } else if (data.colors) {
-            $progressBar.css({ width: parseInt(data.progress) + '100%', height: '100%' });
-            var pixelArray = data.colors;
-            $(image).remove();
-            image = new Image();
-            var imageData = context.createImageData($imageContainer.width(), $imageContainer.height());
+            threadProgress[data.offset] = 1;
+            
+            var pixelArray = data.colors; 
             var i=0; length = pixelArray.length;
-            for (i=0; i<length; ++i) {
-              imageData.data[i] = pixelArray[i];
+            for (i=0; i<length/4; ++i) {
+              var toIndex = 16*i + 4*data.offset;
+              var fromIndex = 4*i;
+              imageData.data[toIndex  ] = pixelArray[fromIndex  ];
+              imageData.data[toIndex+1] = pixelArray[fromIndex+1];
+              imageData.data[toIndex+2] = pixelArray[fromIndex+2];
+              imageData.data[toIndex+3] = pixelArray[fromIndex+3];
             }
-            context.putImageData(imageData, 0, 0);
-            var uri = canvas.toDataURL('image/png');
-            image.src = uri;
-            $imageContainer.prepend(image);
-            image.onload = function() {
-              $progressBorder.fadeOut();
-              if (!previewMode) {
-                $.ajax({
-                  type: "POST",
-                  url: "/imageSubmitted",
-                  data: { user: $user.val(), code: code, uri: uri+'||||' }
-                }).done(function(response) {
-                  if (response=='success') {
-                    window.location = '/';
-                  } else {
-                    window.location = '/error/'+response;
-                  }
-                });
-              }
+            
+            if (imageProgress() == 1) { 
+              $progressBar.css({ width: '100%', height: '100%' });
+              $(image).remove();
+              image = new Image();
+              
+              context.putImageData(imageData, 0, 0);
+              var uri = canvas.toDataURL('image/png');
+              image.src = uri;
+              $imageContainer.prepend(image);
+              image.onload = function() {
+                $progressBorder.fadeOut();
+                if (!previewMode) {
+                  $.ajax({
+                    type: "POST",
+                    url: "/imageSubmitted",
+                    data: { user: $user.val(), code: code, uri: uri+'||||' }
+                  }).done(function(response) {
+                    if (response=='success') {
+                      window.location = '/';
+                    } else {
+                      window.location = '/error/'+response;
+                    }
+                  });
+                }
+              };
             };
-          }
+          };
         };
         
-        var imageWorker = new Worker('/js/imageworker.js');
+        var imageWorkers = [];
+        for (var i=0; i<4; i++) {
+          imageWorkers[i] = new Worker('/js/multicore_imageworker.js');
+          }
+
         
         function loadImage(preview) {
-          imageWorker.terminate();
-          imageWorker = new Worker('/js/imageworker.js');
-          imageWorker.onmessage = onmessage;
-          $progressBorder.show();
-          $progressBar.css({ width: '0%', height: '100%' });
+        
           previewMode = preview;
           code = editor.getValue() || '';
-          code = 'var r=0, g=0, b=0;\n' + code + '\nreturn [ mod(r,256), mod(g,256), mod(b,256) ];';
-          imageWorker.postMessage({
-            width: $imageContainer.width(),
-            height: $imageContainer.height(),
-            definition: code
-          });
+          code = 'var r=0, g=0, b=0;\n' + code + '\nreturn [ mod(r,256), mod(g,256), mod(b,256) ];';        
+        
+          for (var i=0; i<4; i++) {
+            imageWorkers[i].terminate();
+            imageWorkers[i] = new Worker('/js/multicore_imageworker.js');
+            imageWorkers[i].onmessage = onmessage;
+            imageWorkers[i].postMessage({
+              width: $imageContainer.width(),
+              height: $imageContainer.height(),
+              offset: i,
+              definition: code
+            });
+          }
+          $progressBorder.show();
+          $progressBar.css({ width: '0%', height: '100%' });
         }
+        
+        
         
         $textSubmit.click(function() {
           loadImage(false);
