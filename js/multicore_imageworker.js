@@ -56,7 +56,7 @@ var getFunction = function(definition, width, height) {
       floor = Math.floor, ceil = Math.ceil, round = Math.round, exp = Math.exp,
       acos = Math.acos, asin = Math.asin, atan = Math.atan, atan2 = Math.atan2,
       max = Math.max, min = Math.min, pow = Math.pow, random = Math.random;
-  definition = 'var definition = undefined; function setPixels(x, y) {' + definition + '}';
+  definition = 'var definition = undefined; function setPixels(x, y) { seedrandom("0"); ' + definition + '}';
   eval(definition);
   return setPixels;
 };

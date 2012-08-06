@@ -13,7 +13,6 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/js/worker.js"></script>
     <script>
-      
       $(document).ready(function() {
         var $textSubmit = $('#textSubmit');
         var $textPreview = $('#textPreview');
@@ -80,6 +79,7 @@
             }
             
             if (imageProgress() == 1) { 
+              threadProgress = [0,0,0,0]; 
               $progressBar.css({ width: '100%', height: '100%' });
               $(image).remove();
               image = new Image();
