@@ -1,0 +1,32 @@
+#codeBlock {
+  font-family: "Courier New", Courier, monospace;
+}
+
+#imageContainer {
+  position: relative;
+  margin-left: 5px;
+  padding: 2px
+}
+
+.CodeMirror {
+  lineNumbers: false;
+  border: 1px solid black;
+  max-width: 600px;
+  margin-left: 26px;
+}
+
+.progressBar {
+  position: relative;
+  background-color: rgba(0,0,0,50);
+}
+
+.progressBorder {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  border: 1px solid white;
+  height: 25px;
+  width: 100px;
+  border-radius: 3px;
+  z-index: 999;
+}
