@@ -34,6 +34,7 @@ worker.onmessage = function(m) {
 function getFunction(code) {
 	var worker, XMLHttpRequest, Worker, importScripts;
 	worker=XMLHttpRequest=Worker=importScripts=undefined;
+	Math.seedrandom('0');
 	var sin = Math.sin, PI = Math.PI, pi = Math.PI, cos = Math.cos, 
       tan = Math.tan, log = Math.log, sqrt = Math.sqrt, abs = Math.abs,
       floor = Math.floor, ceil = Math.ceil, round = Math.round, exp = Math.exp,
@@ -42,7 +43,9 @@ function getFunction(code) {
 	// as Javascript's modulus operator fails for negative numbers
     function fixedModulus(x,m) { return ((x%m)+m)%m; };
     var mod = fixedModulus;
-	eval("function f(x,y,z) { Math.seedrandom('0'); "+code+"}");
+	eval("function f(x,y,z) {"+
+	     code+
+	     "\n return [mod(r,256), mod(g,256), mod(b,256)] }");
 	return f;
 }
 
@@ -85,11 +88,22 @@ function renderLine( width, height, img_func, y ) {
 
 
 function debugPixel(width,height,img_func,px,py) {
-    return "(.5,.5): "+img_func(0.5,0.5);
     out = "Debug mode pixel: ("+px+","+py+")"+'\n';
     width = width-1;
     height = height-1;
-	out += "Image coordinate: ("+[px/width,py/height]+")\n";
-    out += "Output color: ("+img_func(px/width,py/height)+")\n";
+	out += "Image coordinate: ("+formatFloatArray([px/width,py/height],2)+")\n";
+    out += "Output color: ("+formatFloatArray(img_func(px/width,py/height),2)+")\n";
     return out;
 }
+
+function formatFloatArray(nums, precision) {
+    for (var i=0; i<nums.length; i++) { nums[i] = nums[i].toFixed(2); }
+    return nums;
+}
+    
+    
+    
+    
+    
+    
+    

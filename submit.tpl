@@ -88,10 +88,10 @@ Loading...
     var myCodeMirror = CodeMirror.fromTextArea( document.getElementById("codeBox"),
                                                 { matchBrackets:true, onChange:render});
     var code;
-    code = myCodeMirror.value;
+    code = myCodeMirror.getValue();
     viewerConsole = document.getElementById("viewerConsole");
     
-    var nWorkers = 4;
+    var nWorkers = 1;
     var workers = Array(nWorkers);
     for (var i=0; i<workers.length; i++) {
         workers[i] = new Worker("js/imageworker.js");
@@ -107,10 +107,10 @@ Loading...
         for (var x=0; x<canv.width; x++) {
             for (var y=0; y<(range[1]-range[0]); y++) {
                 i = (y*canv.width+x)*4;
-                c = Math.floor(pixels[x]);
-                imageData.data[i  ] = 255-c;
-                imageData.data[i+1] = 255-c;
-                imageData.data[i+2] = 255-c;
+                c = pixels[x];
+                imageData.data[i  ] = c[0];
+                imageData.data[i+1] = c[1];
+                imageData.data[i+2] = c[2];
                 imageData.data[i+3] = 255;
             }
         }
@@ -127,7 +127,7 @@ Loading...
     function render() {
         try {
         progress = 0;
-        code = myCodeMirror.value;
+        code = myCodeMirror.getValue();
         var band_height = Math.floor(canv.height/nWorkers);
         var remaining_pixels = canv.height%nWorkers;
         for (var i=0; i<workers.length; i++) {
@@ -162,7 +162,6 @@ Loading...
     debugWorker.onmessage = (function (m) {
         var log = m.data.log;
         viewerConsole.value = log;
-        viewerConsole.value = code;
     });
     
     canv.addEventListener('click', onCanvasClick, false);
