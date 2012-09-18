@@ -33,9 +33,9 @@ def gallerypages(imageNum):
 def jsfile(fname):
     return static_file(fname, root=os.curdir+"/js")
 
-@route('/stylesheet.css')
-def stylesheet():
-    return static_file("stylesheet.css", root=os.curdir)
+@route('/styles/<fname:path>')
+def stylesheets(fname):
+    return static_file(fname, root=os.curdir+"/styles")
 
 @route('/images/<fname:path>')
 def image(fname):

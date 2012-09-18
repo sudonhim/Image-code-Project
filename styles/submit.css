@@ -1,0 +1,26 @@
+.nameInput {
+    width: 64%;
+}
+
+.submitButton {
+    width: 34%;
+    margin-bottom: 7px;
+    float: right;
+}
+
+.viewerCanvas {
+    border: 1px solid rgb(0,0,0);
+}
+
+.viewerConsole {
+    width: 450px;
+    font-family: "consolas";
+    background-color: black;
+    color: white;
+}
+
+.codeBox {
+    width: 450px;
+    font-family: "consolas";
+}
+
