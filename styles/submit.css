@@ -4,7 +4,7 @@
 
 .submitButton {
     width: 34%;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
     float: right;
 }
 
@@ -21,6 +21,9 @@
 
 .codeBox {
     width: 450px;
+}
+
+.codeArea {
     font-family: "consolas";
 }
 

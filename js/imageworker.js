@@ -3,7 +3,7 @@
 var worker = self;
 worker.postMessage = worker.webkitPostMessage || worker.postMessage;
 
-importScripts('js/seedrandom.js');
+importScripts('/js/seedrandom.js');
 
 worker.onmessage = function(m) {
     var width = m.data.width;
@@ -32,7 +32,8 @@ worker.onmessage = function(m) {
 
 
 function getFunction(code) {
-	var worker = XMLHttpRequest = Worker = importScripts = this = undefined;
+	var worker, XMLHttpRequest, Worker, importScripts;
+	worker=XMLHttpRequest=Worker=importScripts=undefined;
 	var sin = Math.sin, PI = Math.PI, pi = Math.PI, cos = Math.cos, 
       tan = Math.tan, log = Math.log, sqrt = Math.sqrt, abs = Math.abs,
       floor = Math.floor, ceil = Math.ceil, round = Math.round, exp = Math.exp,
@@ -41,7 +42,7 @@ function getFunction(code) {
 	// as Javascript's modulus operator fails for negative numbers
     function fixedModulus(x,m) { return ((x%m)+m)%m; };
     var mod = fixedModulus;
-	eval("function f(x,y,z) { seedrandom("0"); "+code+"}");
+	eval("function f(x,y,z) { Math.seedrandom('0'); "+code+"}");
 	return f;
 }
 
@@ -50,7 +51,7 @@ function getFunction(code) {
 // for a breadth first traversal of numbers from min to max along with the
 // range of adjacent unrendered lines
 function calculateOrderBFS(lower,upper) {
-	var startQueue = [[lower,upper]];
+	var queue = [[lower,upper]];
     var order = [];
     while (queue.length > 0) {
 		var indices = queue.shift();
@@ -83,7 +84,8 @@ function renderLine( width, height, img_func, y ) {
 
 
 
-function debugPixel(width,height,surface,detail,px,py) {
+function debugPixel(width,height,img_func,px,py) {
+    return "(.5,.5): "+img_func(0.5,0.5);
     out = "Debug mode pixel: ("+px+","+py+")"+'\n';
     width = width-1;
     height = height-1;

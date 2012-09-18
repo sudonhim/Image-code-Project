@@ -45,13 +45,15 @@
     <br />
     <br />
 
-    <div style="width:450px;float:left;"> 
+    <div class="codeArea" style="width:450px;float:left;"> 
 
     <b>function setPixel(x, y) {</b>
     <br/>
     &nbsp;&nbsp;&nbsp;var r, g, b;
     <br />
-        <textarea id="codeBox" class="codeBox" rows="27"></textarea>
+        <textarea id="codeBox" class="codeBox" rows="27">
+{{!startWithCode}}
+        </textarea>
     <br />
     &nbsp;&nbsp;&nbsp;return [ mod(r,256), mod(g,256), mod(b,256) ];        
     <br/>
@@ -77,12 +79,16 @@ Loading...
 </div>
 </div>
 
-<script src="js/imageworker.js"></script>
+</body>
+
 <script>
 
     var canv = document.getElementById("viewerCanvas");
     var ctxt = canv.getContext("2d");
+    var myCodeMirror = CodeMirror.fromTextArea( document.getElementById("codeBox"),
+                                                { matchBrackets:true, onChange:render});
     var code;
+    code = myCodeMirror.value;
     viewerConsole = document.getElementById("viewerConsole");
     
     var nWorkers = 4;
@@ -121,9 +127,7 @@ Loading...
     function render() {
         try {
         progress = 0;
-        code = document.getElementById("coBebox").value;
-        var img_func = getFunction(code); // To test that it compiles
-        img_func(0.0,0.0); // And runs
+        code = myCodeMirror.value;
         var band_height = Math.floor(canv.height/nWorkers);
         var remaining_pixels = canv.height%nWorkers;
         for (var i=0; i<workers.length; i++) {
@@ -158,6 +162,7 @@ Loading...
     debugWorker.onmessage = (function (m) {
         var log = m.data.log;
         viewerConsole.value = log;
+        viewerConsole.value = code;
     });
     
     canv.addEventListener('click', onCanvasClick, false);
@@ -177,6 +182,4 @@ Loading...
     
     
 </script>
-
-</body>
 </html>

@@ -71,7 +71,7 @@ def show_help():
 @route('/submit')
 def submit():
     print "User went to submit page..."
-    defaultCode = r"r = x * 255;\ng = y * 255;\nb = 0;"
+    defaultCode = "r = x * 255;\ng = y * 255;\nb = 0;"
     return template('submit', startWithCode=defaultCode)
 
 @route('/submit/<fname:path>')
@@ -84,8 +84,7 @@ def submit_derivative(fname):
         for line in lines[2:-2]: code += line[2:]+'\n'
     except IOError:
         code = ("This is not a valid JavaScript source file.")
-    code = code.replace("\n",r"\n")
-    code = code.replace("'","\\'")
+    code = code.replace("\n","&#10;")
     return template('submit', startWithCode=code)
 
 
