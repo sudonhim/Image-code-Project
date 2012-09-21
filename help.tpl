@@ -55,9 +55,8 @@
     <p>
     The best way to get going with Image-code, is to modify somebody
     else's submission. To do this, choose an image from the main gallery
-    that you would like to change and click it to view its source.
-    Then click reuse code to open a new submission based on that code.
-    Note that some older images may not be able to be reused.
+    that you would like to change and click it, the source code for the image
+    will then be opened in the editor.
     </p>
     <br />
     

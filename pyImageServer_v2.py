@@ -12,6 +12,33 @@ from PIL import Image
 @route('/')
 def gallery():
     return redirect('/gallery/0')
+    
+@route('/code/<fname:path>')
+def gosubmit(fname):
+    return redirect('/submit/'+fname)
+
+@route('/js/<fname:path>')
+def jsfile(fname):
+    return static_file(fname, root=os.curdir+"/js")
+
+@route('/styles/<fname:path>')
+def stylesheets(fname):
+    return static_file(fname, root=os.curdir+"/styles")
+
+@route('/images/<fname:path>')
+def image(fname):
+    return static_file(fname, root=os.curdir+"/images") 
+
+@route('/help')
+def show_help():
+    print "User loaded help..."
+    return template('help') 
+
+@route('/submit')
+def submit():
+    print "User went to submit page..."
+    defaultCode = ""
+    return template('submit', startWithCode=defaultCode)
 
 IMAGES_PER_PAGE = 80
 @route('/gallery/<imageNum:int>')
@@ -27,54 +54,6 @@ def gallerypages(imageNum):
                     imageNum=imageNum,totalImages=len(Saved_Images),
                     imagesPerPage=IMAGES_PER_PAGE)
 
-
-
-@route('/js/<fname:path>')
-def jsfile(fname):
-    return static_file(fname, root=os.curdir+"/js")
-
-@route('/styles/<fname:path>')
-def stylesheets(fname):
-    return static_file(fname, root=os.curdir+"/styles")
-
-@route('/images/<fname:path>')
-def image(fname):
-    return static_file(fname, root=os.curdir+"/images")
-
-
-
-@route('/code/<fname:path>')
-def view_source(fname):
-    print "User viewing source of "+fname
-    language = 'generic'
-    try:
-        code = open(os.curdir+'/images/'+fname+'.js').read()
-        language = 'javascript'
-    except IOError:
-        try:
-            code = open(os.curdir+'/images/'+fname+'.py').read()
-            language = 'python'
-        except IOError:
-            code = ("No source found for this image, it may be from an "+
-                    "older\nversion of pyImageServer")
-    print code
-    return template('viewsource', code=code, name=fname, language=language)
-        
-    
-
-@route('/help')
-def show_help():
-    print "User loaded help..."
-    return template('help')
-    
-    
-
-@route('/submit')
-def submit():
-    print "User went to submit page..."
-    defaultCode = ""
-    return template('submit', startWithCode=defaultCode)
-
 @route('/submit/<fname:path>')
 def submit_derivative(fname):
     print "User is modifying "+fname
@@ -85,7 +64,6 @@ def submit_derivative(fname):
         for line in lines[2:-2]: code += line[2:]+'\n'
     except IOError:
         code = ("This is not a valid JavaScript source file.")
-    print code
     return template('submit', startWithCode=code)
 
 
