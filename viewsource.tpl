@@ -2,7 +2,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <html lang="en">
 
-<link rel="stylesheet" href="/stylesheet.css" type="text/css">
+<link rel="stylesheet" href="/styles/stylesheet.css" type="text/css">
+<link rel="stylesheet" href="/styles/viewsource.css" type="text/css">
 
 <head>
   <title>Image-code Project</title>
@@ -15,6 +16,8 @@
 
 <body>
 
+<div class="background">
+
   <div class="header">
   <table>
   <tr>
@@ -24,9 +27,9 @@
       ::
       <a href="/gallery/0">Gallery</a>
       |
-      <a href='/submit'>Submit</a>
+      <a href="/submit">Submit</a>
       |
-      <a href='/help'>Help/About</a>
+      <a href="/help">Help/About</a>
     </td>
     
     <td style="text-align:center;width:10%;">
@@ -41,7 +44,8 @@
   </table>
   </div>
   
-  <br />
+  <div class="contentArea">
+  
   <br />
   <br />
 
@@ -57,16 +61,19 @@
       <p>Note: This code is written in {{language}}, and comes from a different version of this site</p>
     %end
     
-  <div class='codeBlock' style="width:450px;float:left;">
+  <div class="codeBlock" style="width:450px;float:left;">
   <pre><code data-language="{{language}}">{{code}}</code></pre>
   </div>
   
   
-  <div" style="width:450px;float:right;">
-  <br />
+  <div style="width:450px;float:right;">
     <img src="/images/{{name+'.png'}}">
   </div>
   </div>
+  
+  </div>
+  
+</div>
 
 </body>
 </html>

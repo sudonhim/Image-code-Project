@@ -78,13 +78,3 @@ html,body {
 	color:red;
 	font-weight:bold;
 }
-
-.information {
-	font-size:16px;
-	margin-left:auto;
-	margin-right:auto;
-	width:900px;
-}
-.information h1 {
-	font-size:20px;
-}

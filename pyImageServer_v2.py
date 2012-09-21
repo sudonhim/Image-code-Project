@@ -57,6 +57,7 @@ def view_source(fname):
         except IOError:
             code = ("No source found for this image, it may be from an "+
                     "older\nversion of pyImageServer")
+    print code
     return template('viewsource', code=code, name=fname, language=language)
         
     
@@ -84,7 +85,7 @@ def submit_derivative(fname):
         for line in lines[2:-2]: code += line[2:]+'\n'
     except IOError:
         code = ("This is not a valid JavaScript source file.")
-    code = code.replace("\n","&#10;")
+    print code
     return template('submit', startWithCode=code)
 
 
@@ -159,7 +160,11 @@ def saveImage(data, imghash, code, user):
     f.write(data)
     f.close()
     f = open("images/"+img_fname+".js", 'w')
-    code = 'function setPixel(x,y) {\n  ' + code.replace('\n', '\n  ') + '\n}';
+    code = ('function setPixel(x,y) {'+
+            '\n  var r,g,b;'+
+            '\n  '+code.replace('\n', '\n  ')+
+            '\n  return [mod(r,256),mod(g,256),mod(b,256)];'+
+            '\n}')
     f.write(code)
     f.close()
     Saved_Images.insert( 0,(user, img_fname, str(int(time.time()))) )

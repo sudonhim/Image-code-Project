@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/styles/codemirror.css">
     <script src="/js/codemirror.js"></script>
     <script src="/js/javascript.js"></script>
+    <script src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/worker.js"></script>
     
 </head>
@@ -25,9 +26,9 @@
           ::
           <a href="/gallery/0">Gallery</a>
           |
-          <a href='/submit'>Submit</a>
+          <a href="/submit">Submit</a>
           |
-          <a href='/help'>Help/About</a>
+          <a href="/help">Help/About</a>
         </td>
         <td style="text-align:center;width:10%;">
           <b>Submit</b>
@@ -75,7 +76,7 @@ Loading...
     </canvas>
     <br />
     <input type="text" id="nameInput" class="nameInput" value="Anonymous"/>
-    <button id="submitButton" class="submitButton">Submit</button> 
+    <button id="submitButton" class="submitButton" onclick="readyThenSend()">Submit</button> 
     </div>
 
 </div>
@@ -93,14 +94,16 @@ Loading...
     code = myCodeMirror.getValue();
     viewerConsole = document.getElementById("viewerConsole");
     
-    var nWorkers = 1;
+    var nWorkers = 4;
     var workers = Array(nWorkers);
     for (var i=0; i<workers.length; i++) {
-        workers[i] = new Worker("js/imageworker.js");
+        workers[i] = new Worker("/js/imageworker.js");
     }
     
-    
     var progress = 0;
+    var sendWhenReady = false;
+    
+    render();
     
     function onmessage(m) {
         if (m.data.log) { //There was an error
@@ -127,6 +130,10 @@ Loading...
         if (progress >= canv.height) {
             viewerConsole.value = "Rendering completed, click a pixel to debug it";
         }
+        
+        if (sendWhenReady) {
+            postImage();
+        }
     }
     
     
@@ -139,7 +146,7 @@ Loading...
         for (var i=0; i<workers.length; i++) {
             //respawn all our workers in case some are stuck
             workers[i].terminate();
-            workers[i] = new Worker("js/imageworker.js");
+            workers[i] = new Worker("/js/imageworker.js");
             workers[i].onmessage = onmessage;
             
             var lower = i*band_height;
@@ -163,7 +170,7 @@ Loading...
     
     // DEBUG
     
-    var debugWorker =  new Worker("js/imageworker.js");
+    var debugWorker =  new Worker("/js/imageworker.js");
     
     debugWorker.onmessage = (function (m) {
         var log = m.data.log;
@@ -185,6 +192,32 @@ Loading...
         });
     }
     
+    function readyThenSend() {
+        if (progress>=canv.height) {
+            viewerConsole.value = "Sending!";
+            postImage();
+        } else {
+            sendWhenReady = true;
+        }
+    }
+    
+    function postImage() {
+    var uri = canv.toDataURL('image/png');
+    
+    $.ajax({
+        type: "POST",
+        url: "/imageSubmitted",
+        data: { user: document.getElementById("nameInput").value,
+                code: code,
+                uri: uri+'||||' }
+      }).done(function(response) {
+        if (response=='success') {
+          window.location = '/';
+        } else {
+          window.location = '/error/'+response;
+        }
+      });
+    }
     
 </script>
 </html>
