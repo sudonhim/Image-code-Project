@@ -2,13 +2,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <html lang="en">
 
-<link rel="stylesheet" href="/stylesheet.css" type="text/css">
+<link rel="stylesheet" href="/styles/stylesheet.css" type="text/css">
 
 <head>
   <title>Image-code Project</title>
 </head>
 
 <body>
+
+<div class="background">
 
   <div class="header">
   <table>
@@ -18,9 +20,9 @@
       ::
       <a href="/gallery/0">Gallery</a>
       |
-      <a href='/submit'>Submit</a>
+      <a href="/submit">Submit</a>
       |
-      <a href='/help'>Help/About</a>
+      <a href="/help">Help/About</a>
     </td>
     
     <td style="text-align:center;width:10%;">
@@ -33,20 +35,22 @@
         %if imageNum+imagesPerPage>=totalImages:
           -END
         %else:
-          <a href='/gallery/{{lastImage}}'>NEXT</a>
+          <a href="/gallery/{{lastImage}}">NEXT</a>
         %end
         %if imageNum>0:
           /
-          <a href='/gallery/{{max(imageNum-imagesPerPage,0)}}'>PREV</a>
+          <a href="/gallery/{{max(imageNum-imagesPerPage,0)}}">PREV</a>
         %end
     </td>
     
   </table>
   </div>
   
+  <div class="contentArea">
+  
   <br />
   <br />
-    
+   
   <div class="images_area">
     %for i in range(len(imageurls)):
       %contributor = contributors[i]
@@ -61,7 +65,11 @@
         </a>
     %end
   </div>
+  
+  </div>
    
+</div>   
+
 </body>
 
 </html>

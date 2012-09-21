@@ -9,6 +9,7 @@
 </head>
 
 <body>
+<div class="background">
 
   <div class="header">
   <table>
@@ -35,12 +36,11 @@
   
   <br />
   <br />
-  <br />
-
-
-
+    
+  <div class="contentArea">
   <p class="errormsg">{{message}}</p>
+  </div>
 
-</font>
+</div>
 </body>
 </html>

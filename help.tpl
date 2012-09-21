@@ -2,13 +2,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <html lang="en">
 
-<link rel="stylesheet" href="/stylesheet.css" type="text/css">
+<link rel="stylesheet" href="/styles/stylesheet.css" type="text/css">
 
 <head>
   <title>Image-code Project</title>
 </head>
 
 <body>
+
+<div class="background">
 
   <div class="header">
   <table>
@@ -19,9 +21,9 @@
       ::
       <a href="/gallery/0">Gallery</a>
       |
-      <a href='/submit'>Submit</a>
+      <a href="/submit">Submit</a>
       |
-      <a href='/help'>Help/About</a>
+      <a href="/help">Help/About</a>
     </td>
     
     <td style="text-align:center;width:10%;">
@@ -34,12 +36,10 @@
   </tr>
   </table>
   </div>
-  
-  <br />
-  <br />
-  <br />
 
-  <div class="information">
+  <div class="contentArea">
+    
+    <br />
   
     <h3>About</h3>
     <p>
@@ -87,6 +87,8 @@
     Have fun!
 
     </div>
+
+</div>
 
 </body>
 </html>

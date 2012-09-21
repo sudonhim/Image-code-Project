@@ -43,7 +43,6 @@
 
     <br />
     <br />
-    <br />
 
     <div style="width:450px;float:left;"> 
         <div class="codemirrorContainerTop">
