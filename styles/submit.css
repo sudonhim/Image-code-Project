@@ -9,21 +9,41 @@
 }
 
 .viewerCanvas {
-    border: 1px solid rgb(0,0,0);
+    border: 1px solid black;
 }
 
 .viewerConsole {
     width: 450px;
-    font-family: "consolas";
+    font-family: courier new;
+    font-size: 14px;
     background-color: black;
     color: white;
+    border: 1px solid grey;
 }
 
 .codeBox {
     width: 450px;
 }
 
-.codeArea {
-    font-family: "consolas";
+.codemirrorContainerTop {
+	background:rgb(230,230,240);
+	width:450px;
+	border-top: 1px solid grey;
+	border-left: 1px solid grey;
+	border-right: 1px solid grey;
 }
 
+.codemirrorContainer {
+    width:450px;
+    background:white;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+}
+
+.codemirrorContainerBottom {
+	background:rgb(230,230,240);
+	width:450px;
+	border-left: 1px solid grey;
+	border-right: 1px solid grey;
+	border-bottom: 1px solid grey;
+}

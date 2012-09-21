@@ -71,7 +71,7 @@ def show_help():
 @route('/submit')
 def submit():
     print "User went to submit page..."
-    defaultCode = "r = x * 255;\ng = y * 255;\nb = 0;"
+    defaultCode = ""
     return template('submit', startWithCode=defaultCode)
 
 @route('/submit/<fname:path>')

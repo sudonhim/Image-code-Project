@@ -7,7 +7,7 @@
 
     <title>Image-code JS</title>
     <link href="/js/stylesheet.css" rel="stylesheet" type="text/css"></link>
-    <link rel="stylesheet" href="/js/codemirror.css">
+    <link rel="stylesheet" href="/styles/codemirror.css">
     <script src="/js/codemirror.js"></script>
     <script src="/js/javascript.js"></script>
     <script type="text/javascript" src="/js/worker.js"></script>
@@ -45,35 +45,38 @@
     <br />
     <br />
 
-    <div class="codeArea" style="width:450px;float:left;"> 
-
-    <b>function setPixel(x, y) {</b>
-    <br/>
-    &nbsp;&nbsp;&nbsp;var r, g, b;
-    <br />
-        <textarea id="codeBox" class="codeBox" rows="27">
-{{!startWithCode}}
+    <div style="width:450px;float:left;"> 
+        <div class="codemirrorContainerTop">
+        <code>
+            <b>function setPixel(x, y) {</b><br />
+            &nbsp;var r, g, b;
+        <code>
+        </div>
+        <div class="codemirrorContainer">
+            <textarea id="codeBox" class="codeBox" rows="27">
+{{!startWithCode}}</textarea>
+        </div>
+        <div class="codemirrorContainerBottom">
+        <code>
+            &nbsp;return [ mod(r,256), mod(g,256), mod(b,256) ];        
+            <br/>
+            <b>}</b>
+        </code>
+        </div>
+        <br />
+        <textarea id="viewerConsole" class="viewerConsole" rows="5">
+Loading...
         </textarea>
-    <br />
-    &nbsp;&nbsp;&nbsp;return [ mod(r,256), mod(g,256), mod(b,256) ];        
-    <br/>
-    <b>}</b>
-
+    
     </div>
 
     <div style="width:450px;float:right;">
-    
-    <input type="text" id="nameInput" class="nameInput" value="Anonymous"/>
-    <button id="submitButton" class="submitButton">Submit</button> 
-    
-    <br />
   
     <canvas id="viewerCanvas" class="viewerCanvas" width="450" height="450">
     </canvas>
     <br />
-    <textarea id="viewerConsole" class="viewerConsole" rows="7">
-Loading...
-    </textarea>
+    <input type="text" id="nameInput" class="nameInput" value="Anonymous"/>
+    <button id="submitButton" class="submitButton">Submit</button> 
     </div>
 
 </div>
@@ -101,6 +104,10 @@ Loading...
     var progress = 0;
     
     function onmessage(m) {
+        if (m.data.log) { //There was an error
+            viewerConsole.value = m.data.log;
+            return;
+        }
         var pixels = m.data.pixels;
         var range = m.data.range;
         var imageData = ctxt.createImageData(canv.width,(range[1]-range[0]));

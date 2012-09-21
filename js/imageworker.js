@@ -6,6 +6,7 @@ worker.postMessage = worker.webkitPostMessage || worker.postMessage;
 importScripts('/js/seedrandom.js');
 
 worker.onmessage = function(m) {
+    try {
     var width = m.data.width;
     var height = m.data.height;
     var lower = m.data.lower;
@@ -28,6 +29,9 @@ worker.onmessage = function(m) {
             worker.postMessage({"pixels":pixel_band,"range":[order[i][1],order[i][2]+1]});
         }
     }
+    } catch(e) {
+        worker.postMessage({"log":e.toString()});
+    }
 };
 
 
@@ -43,7 +47,7 @@ function getFunction(code) {
 	// as Javascript's modulus operator fails for negative numbers
     function fixedModulus(x,m) { return ((x%m)+m)%m; };
     var mod = fixedModulus;
-	eval("function f(x,y,z) {"+
+	eval("function f(x,y,z) { var r=0,g=0,b=0;\n"+
 	     code+
 	     "\n return [mod(r,256), mod(g,256), mod(b,256)] }");
 	return f;
