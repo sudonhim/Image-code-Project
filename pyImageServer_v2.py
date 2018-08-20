@@ -159,9 +159,9 @@ if __name__ == '__main__':
 		if len(sys.argv) == 3:
 			port = int(sys.argv[2])
 		else:
-			port = 80
+			port = 4000
     else:
-        bottle.debug()
+        #bottle.debug()
         host = 'localhost'
-        port=8080
+        port=4000
     run(server = 'cherrypy', host=host, port=port)
