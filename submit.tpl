@@ -132,6 +132,7 @@ Loading...
         }
         
         if (sendWhenReady) {
+            sendWhenReady = false;
             postImage();
         }
     }
@@ -202,7 +203,7 @@ Loading...
     }
     
     function postImage() {
-    var uri = canv.toDataURL('image/png');
+        var uri = canv.toDataURL('image/png');
     
     $.ajax({
         type: "POST",
